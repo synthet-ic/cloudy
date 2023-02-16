@@ -1,0 +1,11 @@
+pod version="v1" name="mypod" {
+  label key="foo" value="bar"
+  topology-spread-constraint max-skew=1 topology-key="zone" \
+    when-unsatisfiable="do-not-schedule"
+  {
+    label-selector {
+      match-labels key="foo" value="bar"
+    }
+  }
+  container name="pause" image="registry.k8s.io/pause"
+}
