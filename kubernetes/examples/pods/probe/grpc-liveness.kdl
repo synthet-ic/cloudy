@@ -2,8 +2,7 @@ pod version="v1" name="etcd-with-grpc" {
   container name="etcd" image="registry.k8s.io/etcd" {
     command "/usr/local/bin/etcd" "--data-dir" "/var/lib/etcd" "--listen-client-urls" "http://0.0.0.0:2379" "--advertise-client-urls" "http://127.0.0.1:2379" "--log-level" "debug"
     port container-port=2379
-    liveness-probe {
-      initial-delay-seconds=10
+    liveness-probe initial-delay-seconds=10 {
       grpc port=2379
     }
   }
