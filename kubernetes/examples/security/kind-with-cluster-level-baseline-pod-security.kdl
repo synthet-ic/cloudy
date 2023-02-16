@@ -1,0 +1,43 @@
+admission-configuration version="apiserver.config.k8s.io/v1" {
+  plugin name="pod-security" {
+    configuration {
+      pod-security-configuration \
+        version="pod-security.admission.config.k8s.io/v1"
+      {
+        defaults enforce="baseline" enforce-version="latest" \
+          audit="restricted" audit-version="latest" warn="restricted" \
+          warn-version="latest"
+        exemptions {
+          usernames
+          runtime-classes
+          namespaces "kube-system"
+        }
+      }
+    }
+  }
+}
+
+cluster version="kind.x-k8s.io/v1alpha4" {
+  node role="control-plane" {
+    kubeadm-config-patch "
+      kind: ClusterConfiguration
+      api-server:
+        extra-args:
+          admission-control-config-file: /etc/config/cluster-level-pss.yaml
+          extra-volumes:
+          - name: accf
+          host-path: /etc/config
+          mount-path: /etc/config
+          read-only: false
+          path-type: \"DirectoryOrCreate\"
+      "
+    extra-mount host-path="/tmp/pss" container-path="/etc/config" \
+      read-only=false selinux-relabel=false propagation="none"
+  }
+}
+
+pod version="v1" name="nginx" {
+  container image="nginx" name="nginx" {
+    port container-port=80
+  }
+}

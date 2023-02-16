@@ -1,0 +1,4 @@
+config-map version="v1" {
+  metadata name="special-config" namespace="default"
+  data key="special.how" value="very"
+}

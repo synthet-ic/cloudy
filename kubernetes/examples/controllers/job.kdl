@@ -1,0 +1,11 @@
+job version="batch/v1" name="pi" {
+  spec backoff-limit=4 {
+    template {
+      spec restart-policy="never" {
+        container name="pi" image="perl" {
+          command "perl" "-Mbignum=bpi" "-wle" "print bpi(2000)"
+        }
+      }
+    }
+  }
+}

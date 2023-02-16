@@ -1,0 +1,18 @@
+deployment version="apps/v1" name="hello-world" {
+  label key="app.kubernetes.io/name" value="load-balancer-example"
+  spec replicas=5 {
+    selector {
+      match-label key="app.kubernetes.io/name" value="load-balancer-example"
+    }
+    template {
+      metadata {
+        label key="app.kubernetes.io/name" value="load-balancer-example"
+      }
+      spec {
+        container image="gcr.io/google-samples/node-hello" name="hello-world" {
+          port container-port=8080
+        }
+      }
+    }
+  }
+}

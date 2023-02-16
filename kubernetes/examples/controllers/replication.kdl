@@ -1,0 +1,13 @@
+replication-controller version="v1" name="nginx" {
+  spec replicas=3 {
+    selector key="app" value="nginx"
+    template name="nginx" {
+      label key="app" value="nginx"
+      spec {
+        container name="nginx" image="nginx" {
+          port container-port=80 
+        }
+      }
+    }
+  }
+}

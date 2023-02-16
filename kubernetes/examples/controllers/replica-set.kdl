@@ -1,0 +1,15 @@
+replica-set version="apps/v1" name="my-repset" {
+  spec replicas=3 {
+    selector {
+      match-label key="pod-is-for" value="garbage-collection-example"
+    }
+    template {
+      metadata {
+        label key="pod-is-for" value="garbage-collection-example"
+      }
+      spec {
+        container name="nginx" image="nginx"
+      }
+    }
+  }
+}
