@@ -1,0 +1,16 @@
+flow-schema version="flowcontrol.apiserver.k8s.io/v1beta2" \
+  name="health-for-strangers"
+{
+  spec matching-precedence=1000 {
+    priority-level-configuration name="exempt"
+    rule {
+      non-resource-rules {
+        non-resource-urls "/healthz" "/livez" "/readyz"
+        verbs "*"
+      }
+      subjects {
+        group name="system:unauthenticated"
+      }
+    }
+  }
+}
