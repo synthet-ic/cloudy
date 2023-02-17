@@ -1,0 +1,9 @@
+pod version="v1" name="command-demo" {
+  label key="purpose" value="demonstrate-command"
+  spec restart-policy="on-failure" {
+    container name="command-demo-container" image="debian" {
+      command "printenv"
+      args "HOSTNAME", "KUBERNETES_PORT"
+    }
+  }
+}

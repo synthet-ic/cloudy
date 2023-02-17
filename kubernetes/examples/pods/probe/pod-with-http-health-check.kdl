@@ -1,0 +1,8 @@
+pod version="v1" name="pod-with-http-healthcheck" {
+  container name="nginx" image="nginx" {
+    liveness-probe initial-delay-seconds=30 timeout-seconds=1 {
+      http-get path="/_status/healthz" port=80
+    }
+    port container-port=80
+  }
+}
