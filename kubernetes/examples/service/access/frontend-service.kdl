@@ -1,0 +1,6 @@
+service version="v1" name="frontend" {
+  selector app="hello" tier="frontend"
+  spec type="load-balancer" {
+    port protocol="tcp" port=80 target-port=80
+  }
+}
