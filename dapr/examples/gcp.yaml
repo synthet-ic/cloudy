@@ -1,0 +1,38 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: gcp-pub-sub
+spec:
+  type: pubsub.gcp.pubsub
+  version: v1
+  metadata:
+  - name: type
+    value: ServiceAccount
+  - name: project-id
+    value: <PROJECT_ID> # replace
+  - name: identity-project-id
+    value: <IDENTITY_PROJECT_ID> # replace
+  - name: private-key-id
+    value: <PRIVATE_KEY_ID> #replace
+  - name: client-email
+    value: <CLIENT_EMAIL> #replace
+  - name: client-id
+    value: <CLIENT_ID> # replace
+  - name: auth-uri
+    value: https://accounts.google.com/o/oauth2/auth
+  - name: token-uri
+    value: https://oauth2.googleapis.com/token
+  - name: auth-provider-X509-cert-url
+    value: https://www.googleapis.com/oauth2/v1/certs
+  - name: client-X509-cert-url
+    value: https://www.googleapis.com/robot/v1/metadata/x509/<PROJECT_NAME>.iam.gserviceaccount.com #replace PROJECT_NAME
+  - name: private-key
+    value: <PRIVATE_KEY> # replace x509 cert
+  - name: disable-entity-management
+    value: "false"
+  - name: enable-message-ordering
+    value: "false"
+  - name: max-reconnection-attempts # Optional
+    value: 30
+  - name: connection-recovery-in-sec # Optional
+    value: 2
