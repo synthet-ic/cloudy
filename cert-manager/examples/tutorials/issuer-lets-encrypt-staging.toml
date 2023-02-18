@@ -1,0 +1,16 @@
+api-version = "cert-manager.io/v1"
+kind = "Issuer"
+
+[metadata]
+name = "letsencrypt-staging"
+
+[spec.acme]
+server = "https://acme-staging-v02.api.letsencrypt.org/directory"
+email = "<email-address>"
+
+[spec.acme.private-key-secret-ref]
+name = "letsencrypt-staging"
+
+[[spec.acme.solvers]]
+[spec.acme.solvers.http01.ingress]
+name = "web-ingress"

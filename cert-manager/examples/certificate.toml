@@ -1,0 +1,37 @@
+api-version = "cert-manager.io/v1"
+kind = "Certificate"
+
+[metadata]
+name = "example-com"
+namespace = "sandbox"
+
+[spec]
+secret-name = "example-com-tls"
+duration = "2160h"
+renew-before = "360h"
+common-name = "example.com"
+is-ca = false
+usages = [ "server auth", "client auth" ]
+dns-names = [ "example.com", "www.example.com" ]
+uris = [ "spiffe://cluster.local/ns/sandbox/sa/example" ]
+ip-addresses = [ "192.168.0.5" ]
+
+[spec.secret-template.annotations]
+"my-secret-annotation-1" = "foo"
+"my-secret-annotation-2" = "bar"
+
+[spec.secret-template.labels]
+my-secret-label = "foo"
+
+[spec.subject]
+organisations = [ "jetstack" ]
+
+[spec.private-key]
+algorithm = "RSA"
+encoding = "PKCS1"
+size = 2048
+
+[spec.issuer-ref]
+name = "ca-issuer"
+kind = "Issuer"
+group = "cert-manager.io"
