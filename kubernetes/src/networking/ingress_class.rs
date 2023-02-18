@@ -1,6 +1,6 @@
 //! Reference <https://kubernetes.io/docs/reference/kubernetes-api/service-resources/ingress-class-v1/>
 
-use kfl::Decode;
+use kfl::{Decode, DecodeScalar};
 
 use crate::meta::metadata::Metadata;
 
@@ -8,27 +8,27 @@ use crate::meta::metadata::Metadata;
 #[derive(Debug, Decode)]
 pub struct IngressClass {
     metadata: Metadata,
-    spec: IngressClassSpec
+    spec: Spec
 }
 
 /// <https://kubernetes.io/docs/reference/kubernetes-api/service-resources/ingress-class-v1/#IngressClassSpec>
 #[derive(Debug, Decode)]
-pub struct IngressClassSpec {
+pub struct Spec {
     controller: Option<String>,
-    parameters: Option<IngressClassParametersReference>
+    parameters: Option<Parameters>
 }
 
 #[derive(Debug, Decode)]
-pub struct IngressClassParametersReference {
+pub struct Parameters {
     kind: String,
     name: String,
     api_group: Option<String>,
     namespace: Option<String>,
-    scope: Option<IngressClassParametersReferenceScope>
+    scope: Option<Scope>
 }
 
-#[derive(Debug, Decode, Default)]
-pub enum IngressClassParametersReferenceScope {
+#[derive(Debug, DecodeScalar, Default)]
+pub enum Scope {
     #[default]
     Cluster,
     Namespace

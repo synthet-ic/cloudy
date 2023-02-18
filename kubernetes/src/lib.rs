@@ -93,7 +93,3 @@ impl<S: kfl::traits::ErrorSpan> DecodeScalar<S> for IntOrString {
         }
     }
 }
-
-pub fn default_true() -> bool {
-    true
-}

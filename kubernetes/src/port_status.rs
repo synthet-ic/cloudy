@@ -3,7 +3,7 @@ use kfl::Decode;
 use crate::protocol::Protocol;
 
 #[derive(Debug, Decode)]
-pub struct PortStatus {
+pub struct Port {
     /// Port is the port number of the service port of which status is recorded here
     #[kfl(property)]
     port: i32,

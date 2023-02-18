@@ -1,0 +1,16 @@
+ingress version="networking.k8s.io/v1" name="example-ingress" {
+  annotation key="nginx.ingress.kubernetes.io/rewrite-target" value="/$1"
+  spec {
+    rule host="hello-world.info" {
+      http {
+        path "/" type="prefix" {
+          backend {
+            service name="web" {
+              port number=8080
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
 
 use kfl::Decode;
 
-use crate::meta::metadata::Metadata;
+use crate::meta::Metadata;
 use super::{RoleRef, Subject};
 
 /// <https://kubernetes.io/docs/reference/kubernetes-api/authorization-resources/cluster-role-binding-v1/#ClusterRoleBinding>

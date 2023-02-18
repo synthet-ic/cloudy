@@ -1,0 +1,7 @@
+service version="v1" name="my-service" {
+  label key="app.kubernetes.io/name" value="my-app"
+  spec {
+    selector key="app.kubernetes.io/name" value="my-app"
+    port protocol="tcp" port=80
+  }
+}
