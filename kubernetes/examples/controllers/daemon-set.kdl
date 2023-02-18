@@ -1,24 +1,17 @@
-daemon-set version="apps/v1" {
-  template {
-    metadata
+daemon-set "fluentd-elasticsearch" namespace="kube-system" version="apps/v1" {
+  label key="k8s-app" value="fluentd-logging"
+  spec {
+    selector {
+      match-labels key="k8s-app" value="fluentd-logging"
+    }
+    template {
+      label key="k8s-app" value="fluentd-logging"
+      spec termination-grace-period-seconds=30 {
+
+      }
+    }
   }
 }
-
-[metadata]
-name = "fluentd-elasticsearch"
-namespace = "kube-system"
-
-[metadata.labels]
-k8s-app = "fluentd-logging"
-
-[spec.selector.match-labels]
-name = "fluentd-elasticsearch"
-
-[spec.template.metadata.labels]
-name = "fluentd-elasticsearch"
-
-[spec.template.spec]
-termination-grace-period-seconds = 30
 
 [[spec.template.spec.tolerations]]
 key = "node-role.kubernetes.io/control-plane"

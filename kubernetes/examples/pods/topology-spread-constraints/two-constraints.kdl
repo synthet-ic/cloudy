@@ -1,28 +1,16 @@
-api-version = "v1"
-kind = "Pod"
-
-[metadata]
-name = "mypod"
-
-[metadata.labels]
-foo = "bar"
-
-[[spec.topology-spread-constraints]]
-max-skew = 1
-topology-key = "zone"
-when-unsatisfiable = "DoNotSchedule"
-
-[spec.topology-spread-constraints.label-selector.match-labels]
-foo = "bar"
-
-[[spec.topology-spread-constraints]]
-max-skew = 1
-topology-key = "node"
-when-unsatisfiable = "DoNotSchedule"
-
-[spec.topology-spread-constraints.label-selector.match-labels]
-foo = "bar"
-
-[[spec.containers]]
-name = "pause"
-image = "registry.k8s.io/pause"
+pod "my-pod" version="v1" {
+  label key="foo" value="bar"
+  spec {
+    topology-spread-constraint max-skew=1 topology-key="zone" when-unsatisfiable="do-not-schedule" {
+      label-selector {
+        match-labels key="foo" value="bar"
+      }
+    }
+    topology-spread-constraint max-skew=1 topology-key="node" when-unsatisfiable="do-not-schedule" {
+      label-selector {
+        match-labels key="foo" value="bar"
+      }
+    }
+    container "pause" image="registry.k8s.io/pause"
+  }
+}

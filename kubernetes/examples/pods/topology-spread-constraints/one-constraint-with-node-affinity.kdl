@@ -1,7 +1,7 @@
 pod "my-pod" version="v1" {
   label key="foo" value="bar"
   spec {
-    topology-spread-constraints max-skew=1 topology-key="zone" when-unsatisfiable="do-not-schedule" {
+    topology-spread-constraint max-skew=1 topology-key="zone" when-unsatisfiable="do-not-schedule" {
       label-selector {
         match-labels key="foo" value="bar"
       }
