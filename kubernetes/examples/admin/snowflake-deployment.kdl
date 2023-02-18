@@ -1,0 +1,15 @@
+deployment "snowflake" version="apps/v1" {
+  label key="app" value="snowflake"
+  spec replicas=2 {
+    selector {
+      match-label key="app" value="snowflake"
+    }
+    template {
+      label key="app" value="snowflake"
+      spec {
+        container "snowflake" image="registry.k8s.io/serve_hostname" image-pull-policy="always"
+      }
+    }
+  }
+}
+

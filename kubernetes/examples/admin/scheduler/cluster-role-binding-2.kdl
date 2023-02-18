@@ -1,0 +1,4 @@
+cluster-role-binding "my-scheduler-as-volume-scheduler" version="rbac.authorization.k8s.io/v1" {
+  (subject)service-account "my-scheduler" namespace="kube-system"
+  role-ref kind="cluster-role" name="system:volume-scheduler" api-group="rbac.authorization.k8s.io"
+}

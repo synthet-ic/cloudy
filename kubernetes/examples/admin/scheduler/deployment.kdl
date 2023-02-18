@@ -1,0 +1,31 @@
+deployment "my-scheduler" namespace="kube-system" version="apps/v1" {
+  labels component="scheduler" tier="control-plane"
+  spec replicas=1 {
+    selector {
+      match-labels component="scheduler" tier="control-plane"
+    }
+    template {
+      labels component="scheduler" tier="control-plane" version="second"
+      spec service-account-name="my-scheduler" host-network=false host-pid=false {
+        container "kube-second-scheduler" image="gcr.io/my-gcp-project/my-kube-scheduler" {
+          command "/usr/local/bin/kube-scheduler" "--config /etc/kubernetes/my-scheduler/my-scheduler-config.kdl"
+          ]
+          liveness-probe initial-delay-seconds=15 {
+            http-get path="/healthz" port=10259 scheme="https"
+          }
+          readiness-probe initial-delay-seconds=15 {
+            http-get path="/healthz" port=10259 scheme="https"
+          }
+          resources {
+            requests cpu="0.1"
+          }
+          security-context privileged=false
+          volume-mount "config-volume" path="/etc/kubernetes/my-scheduler"
+        }
+        volume "config-volume" {
+          config-map "my-scheduler-config"
+        }
+      }
+    }
+  }
+}
