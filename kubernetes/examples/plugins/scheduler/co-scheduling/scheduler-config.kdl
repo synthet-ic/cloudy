@@ -1,0 +1,39 @@
+api-version = "kubescheduler.config.k8s.io/v1beta2"
+kind = "KubeSchedulerConfiguration"
+
+[leaderElection]
+leaderElect = false
+
+[clientConnection]
+kubeconfig = "REPLACE_ME_WITH_KUBE_CONFIG_PATH"
+
+[[profiles]]
+schedulerName = "default-scheduler"
+
+[[profiles.plugins.queueSort.enabled]]
+name = "Coscheduling"
+
+[[profiles.plugins.queueSort.disabled]]
+name = "*"
+
+[[profiles.plugins.preFilter.enabled]]
+name = "Coscheduling"
+
+[[profiles.plugins.postFilter.enabled]]
+name = "Coscheduling"
+
+[[profiles.plugins.permit.enabled]]
+name = "Coscheduling"
+
+[[profiles.plugins.reserve.enabled]]
+name = "Coscheduling"
+
+[[profiles.plugins.postBind.enabled]]
+name = "Coscheduling"
+
+[[profiles.pluginConfig]]
+name = "Coscheduling"
+
+[profiles.pluginConfig.args]
+permitWaitingTimeSeconds = 10
+deniedPGExpirationTimeSeconds = 3

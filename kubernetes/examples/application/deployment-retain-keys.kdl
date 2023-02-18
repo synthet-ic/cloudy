@@ -1,0 +1,16 @@
+deployment "retainkeys-demo" version="apps/v1" {
+  spec {
+    selector {
+      match-label key="app" value="nginx"
+    }
+    strategy {
+      rolling-update max-surge="30%"
+    }
+    template {
+      label key="app" value="nginx"
+      spec {
+        container "retainkeys-demo-ctr" image="nginx"
+      }
+    }
+  }
+}

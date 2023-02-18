@@ -1,0 +1,12 @@
+api-version = "v1"
+kind = "PersistentVolumeClaim"
+
+[metadata]
+name = "mysql-pv-claim"
+
+[spec]
+storage-class-name = "manual"
+access-modes = [ "ReadWriteOnce" ]
+
+[spec.resources.requests]
+storage = "20Gi"

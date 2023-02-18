@@ -1,0 +1,31 @@
+api-version = "kubescheduler.config.k8s.io/v1beta2"
+kind = "KubeSchedulerConfiguration"
+
+[leaderElection]
+leaderElect = false
+
+[clientConnection]
+kubeconfig = "REPLACE_ME_WITH_KUBE_CONFIG_PATH"
+
+[[profiles]]
+schedulerName = "default-scheduler"
+
+[[profiles.plugins.score.enabled]]
+name = "NodeResourcesAllocatable"
+
+[[profiles.plugins.score.disabled]]
+name = "*"
+
+[[profiles.pluginConfig]]
+name = "NodeResourcesAllocatable"
+
+[profiles.pluginConfig.args]
+mode = "Least"
+
+[[profiles.pluginConfig.args.resources]]
+name = "cpu"
+weight = 1_000_000
+
+[[profiles.pluginConfig.args.resources]]
+name = "memory"
+weight = 1

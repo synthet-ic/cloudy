@@ -1,0 +1,17 @@
+api-version = "v1"
+kind = "Service"
+
+[metadata]
+name = "cassandra"
+
+[metadata.labels]
+app = "cassandra"
+
+[spec]
+cluster-ip = "None"
+
+[[spec.ports]]
+port = 9042
+
+[spec.selector]
+app = "cassandra"

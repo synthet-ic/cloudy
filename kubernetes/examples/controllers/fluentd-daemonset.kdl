@@ -1,0 +1,59 @@
+api-version = "apps/v1"
+kind = "DaemonSet"
+
+[metadata]
+name = "fluentd-elasticsearch"
+namespace = "kube-system"
+
+[metadata.labels]
+k8s-app = "fluentd-logging"
+
+[spec.selector.match-labels]
+name = "fluentd-elasticsearch"
+
+[spec.update-strategy]
+type = "RollingUpdate"
+
+[spec.update-strategy.rolling-update]
+max-unavailable = 1
+
+[spec.template.metadata.labels]
+name = "fluentd-elasticsearch"
+
+[spec.template.spec]
+termination-grace-period-seconds = 30
+
+[[spec.template.spec.tolerations]]
+key = "node-role.kubernetes.io/control-plane"
+operator = "Exists"
+effect = "NoSchedule"
+
+[[spec.template.spec.tolerations]]
+key = "node-role.kubernetes.io/master"
+operator = "Exists"
+effect = "NoSchedule"
+
+[[spec.template.spec.containers]]
+name = "fluentd-elasticsearch"
+image = "quay.io/fluentd_elasticsearch/fluentd"
+
+[[spec.template.spec.containers.volume-mounts]]
+name = "varlog"
+mount-path = "/var/log"
+
+[[spec.template.spec.containers.volume-mounts]]
+name = "varlibdockercontainers"
+mount-path = "/var/lib/docker/containers"
+read-only = true
+
+[[spec.template.spec.volumes]]
+name = "varlog"
+
+[spec.template.spec.volumes.host-path]
+path = "/var/log"
+
+[[spec.template.spec.volumes]]
+name = "varlibdockercontainers"
+
+[spec.template.spec.volumes.host-path]
+path = "/var/lib/docker/containers"

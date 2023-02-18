@@ -1,0 +1,65 @@
+api-version = "apps/v1"
+kind = "Deployment"
+
+[metadata]
+name = "topo-aware-scheduler"
+namespace = "kube-system"
+
+[metadata.labels]
+component = "scheduler"
+tier = "control-plane"
+
+[spec]
+replicas = 1
+
+[spec.selector.match-labels]
+component = "scheduler"
+tier = "control-plane"
+
+[spec.template.metadata.labels]
+component = "scheduler"
+tier = "control-plane"
+version = "second"
+
+[spec.template.spec]
+serviceAccountName = "topo-aware-scheduler"
+hostNetwork = false
+hostPID = false
+
+[spec.template.spec.nodeSelector]
+"node-role.kubernetes.io/master" = ""
+
+[[spec.template.spec.containers]]
+image = "localhost:5000/scheduler-plugins/kube-scheduler:latest"
+imagePullPolicy = "Never"
+command = [
+  "/bin/kube-scheduler",
+  "--authentication-kubeconfig=/etc/kubernetes/scheduler.conf",
+  "--authorization-kubeconfig=/etc/kubernetes/scheduler.conf",
+  "--config=/etc/kubernetes/scheduler-config/scheduler-config.yaml"
+]
+name = "scheduler"
+
+[spec.template.spec.containers.securityContext]
+privileged = false
+
+[[spec.template.spec.containers.volumeMounts]]
+mountPath = "/etc/kubernetes/scheduler.conf"
+name = "kubeconfig"
+
+[[spec.template.spec.containers.volumeMounts]]
+mountPath = "/etc/kubernetes/scheduler-config"
+name = "topo-aware-scheduler-config-vol"
+
+[[spec.template.spec.volumes]]
+name = "kubeconfig"
+
+[spec.template.spec.volumes.hostPath]
+path = "/etc/kubernetes/scheduler.conf"
+type = "File"
+
+[[spec.template.spec.volumes]]
+name = "topo-aware-scheduler-config-vol"
+
+[spec.template.spec.volumes.configMap]
+name = "topo-aware-scheduler-config"

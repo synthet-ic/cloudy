@@ -1,0 +1,90 @@
+api-version = "v1"
+kind = "Pod"
+
+[metadata]
+name = "konnectivity-server"
+namespace = "kube-system"
+
+[spec]
+priority-class-name = "system-cluster-critical"
+host-network = true
+
+[[spec.containers]]
+name = "konnectivity-server-container"
+image = "registry.k8s.io/kas-network-proxy/proxy-server"
+command = [ "/proxy-server" ]
+args = [
+  "--logtostderr=true",
+  "--uds-name=/etc/kubernetes/konnectivity-server/konnectivity-server.socket",
+  "--cluster-cert=/etc/kubernetes/pki/apiserver.crt",
+  "--cluster-key=/etc/kubernetes/pki/apiserver.key",
+  "--mode=grpc",
+  "--server-port=0",
+  "--agent-port=8132",
+  "--admin-port=8133",
+  "--health-port=8134",
+  "--agent-namespace=kube-system",
+  "--agent-service-account=konnectivity-agent",
+  "--kubeconfig=/etc/kubernetes/konnectivity-server.conf",
+  "--authentication-audience=system:konnectivity-server"
+]
+
+[spec.containers.liveness-probe]
+initial-delay-seconds = 30
+timeout-seconds = 60
+
+[spec.containers.liveness-probe.http-get]
+scheme = "HTTP"
+host = "127.0.0.1"
+port = 8134
+path = "/healthz"
+
+[[spec.containers.ports]]
+name = "agentport"
+container-port = 8132
+host-port = 8132
+
+[[spec.containers.ports]]
+name = "admin-port"
+container-port = 8133
+host-port = 8133
+
+[[spec.containers.ports]]
+name = "health-port"
+container-port = 8134
+host-port = 8134
+
+[[spec.containers.volume-mounts]]
+name = "k8s-certs"
+mount-path = "/etc/kubernetes/pki"
+read-only = true
+
+[[spec.containers.volume-mounts]]
+name = "kubeconfig"
+mount-path = "/etc/kubernetes/konnectivity-server.conf"
+read-only = true
+
+[[spec.containers.volume-mounts]]
+name = "konnectivity-uds"
+mount-path = "/etc/kubernetes/konnectivity-server"
+read-only = false
+
+[[spec.volumes]]
+name = "k8s-certs"
+
+[spec.volumes.host-path]
+path = "/etc/kubernetes/pki"
+
+[[spec.volumes]]
+name = "kubeconfig"
+
+[spec.volumes.host-path]
+path = "/etc/kubernetes/konnectivity-server.conf"
+type = "FileOrCreate"
+
+[[spec.volumes]]
+name = "konnectivity-uds"
+
+[spec.volumes.host-path]
+path = "/etc/kubernetes/konnectivity-server"
+type = "DirectoryOrCreate"

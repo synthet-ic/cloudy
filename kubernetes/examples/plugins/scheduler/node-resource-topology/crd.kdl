@@ -1,0 +1,150 @@
+api-version = "apiextensions.k8s.io/v1"
+kind = "CustomResourceDefinition"
+
+[metadata]
+name = "noderesourcetopologies.topology.node.k8s.io"
+
+[metadata.annotations]
+"api-approved.kubernetes.io" = "https://github.com/kubernetes/enhancements/pull/1870"
+"controller-gen.kubebuilder.io/version" = "v0.6.2"
+
+[spec]
+group = "topology.node.k8s.io"
+scope = "Cluster"
+
+[spec.names]
+kind = "NodeResourceTopology"
+listKind = "NodeResourceTopologyList"
+plural = "noderesourcetopologies"
+shortNames = [ "node-res-topo" ]
+singular = "noderesourcetopology"
+
+[[spec.versions]]
+name = "v1alpha1"
+served = true
+storage = true
+
+[spec.versions.schema.openAPIV3Schema]
+description = "NodeResourceTopology describes node resources and their topology."
+required = [ "topology-policies", "zones" ]
+type = "object"
+
+[spec.versions.schema.openAPIV3Schema.properties.api-version]
+description = "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources"
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.kind]
+description = "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds"
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.metadata]
+type = "object"
+
+[spec.versions.schema.openAPIV3Schema.properties.topology-policies]
+type = "array"
+
+[spec.versions.schema.openAPIV3Schema.properties.topology-policies.items]
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones]
+description = "ZoneList contains an array of Zone objects."
+type = "array"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items]
+description = "Zone represents a resource topology zone, e.g. socket, node, die or core."
+required = [ "name", "type" ]
+type = "object"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.attributes]
+description = "AttributeList contains an array of AttributeInfo objects."
+type = "array"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.attributes.items]
+description = "AttributeInfo contains one attribute of a Zone."
+required = [ "name", "value" ]
+type = "object"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.attributes.items.properties.name]
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.attributes.items.properties.value]
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.costs]
+description = "CostList contains an array of CostInfo objects."
+type = "array"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.costs.items]
+description = "CostInfo describes the cost (or distance) between two Zones."
+required = [ "name", "value" ]
+type = "object"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.costs.items.properties.name]
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.costs.items.properties.value]
+format = "int64"
+type = "integer"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.name]
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.parent]
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.resources]
+description = "ResourceInfoList contains an array of ResourceInfo objects."
+type = "array"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.resources.items]
+description = "ResourceInfo contains information about one resource type."
+required = [ "allocatable", "available", "capacity", "name" ]
+type = "object"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.resources.items.properties.allocatable]
+description = "Allocatable quantity of the resource, corresponding to allocatable in node status, i.e. total amount of this resource available to be used by pods."
+pattern = "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$"
+x-kubernetes-int-or-string = true
+
+[[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.resources.items.properties.allocatable.anyOf]]
+type = "integer"
+
+[[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.resources.items.properties.allocatable.anyOf]]
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.resources.items.properties.available]
+description = "Available is the amount of this resource currently available for new (to be scheduled) pods, i.e. Allocatable minus the resources reserved by currently running pods."
+pattern = "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$"
+x-kubernetes-int-or-string = true
+
+[[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.resources.items.properties.available.anyOf]]
+type = "integer"
+
+[[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.resources.items.properties.available.anyOf]]
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.resources.items.properties.capacity]
+description = "Capacity of the resource, corresponding to capacity in node status, i.e. total amount of this resource that the node has."
+pattern = "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$"
+x-kubernetes-int-or-string = true
+
+[[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.resources.items.properties.capacity.anyOf]]
+type = "integer"
+
+[[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.resources.items.properties.capacity.anyOf]]
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.resources.items.properties.name]
+description = "Name of the resource."
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.zones.items.properties.type]
+type = "string"
+
+[status]
+conditions = [ ]
+storedVersions = [ ]
+
+[status.acceptedNames]
+kind = ""
+plural = ""

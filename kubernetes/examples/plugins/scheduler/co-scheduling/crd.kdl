@@ -1,0 +1,113 @@
+api-version = "apiextensions.k8s.io/v1"
+kind = "CustomResourceDefinition"
+
+[metadata]
+name = "podgroups.scheduling.sigs.k8s.io"
+
+[metadata.annotations]
+"api-approved.kubernetes.io" = "https://github.com/kubernetes-sigs/scheduler-plugins/pull/50"
+"controller-gen.kubebuilder.io/version" = "v0.6.2"
+
+[spec]
+group = "scheduling.sigs.k8s.io"
+scope = "Namespaced"
+
+[spec.names]
+kind = "PodGroup"
+listKind = "PodGroupList"
+plural = "podgroups"
+shortNames = [ "pg", "pgs" ]
+singular = "podgroup"
+
+[[spec.versions]]
+name = "v1alpha1"
+served = true
+storage = true
+
+[spec.versions.schema.openAPIV3Schema]
+description = "PodGroup is a collection of Pod; used for batch workload."
+type = "object"
+
+[spec.versions.schema.openAPIV3Schema.properties.api-version]
+description = "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources"
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.kind]
+description = "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds"
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.metadata]
+type = "object"
+
+[spec.versions.schema.openAPIV3Schema.properties.spec]
+description = "Specification of the desired behaviour of the pod group."
+type = "object"
+
+[spec.versions.schema.openAPIV3Schema.properties.spec.properties.minMember]
+description = "MinMember defines the minimal number of members/tasks to run the pod group; if there's not enough resources to start all tasks, the scheduler will not start anyone."
+format = "int32"
+type = "integer"
+
+[spec.versions.schema.openAPIV3Schema.properties.spec.properties.minResources]
+description = "MinResources defines the minimal resource of members/tasks to run the pod group; if there's not enough resources to start all tasks, the scheduler will not start anyone."
+type = "object"
+
+[spec.versions.schema.openAPIV3Schema.properties.spec.properties.minResources.additionalProperties]
+pattern = "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$"
+x-kubernetes-int-or-string = true
+
+[[spec.versions.schema.openAPIV3Schema.properties.spec.properties.minResources.additionalProperties.anyOf]]
+type = "integer"
+
+[[spec.versions.schema.openAPIV3Schema.properties.spec.properties.minResources.additionalProperties.anyOf]]
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.spec.properties.scheduleTimeoutSeconds]
+description = "ScheduleTimeoutSeconds defines the maximal time of members/tasks to wait before run the pod group;"
+format = "int32"
+type = "integer"
+
+[spec.versions.schema.openAPIV3Schema.properties.status]
+description = "Status represents the current information about a pod group. This data may not be up to date."
+type = "object"
+
+[spec.versions.schema.openAPIV3Schema.properties.status.properties.failed]
+description = "The number of pods which reached phase Failed."
+format = "int32"
+type = "integer"
+
+[spec.versions.schema.openAPIV3Schema.properties.status.properties.occupiedBy]
+description = "OccupiedBy marks the workload (e.g., deployment, statefulset) UID that occupy the podgroup. It is empty if not initialised."
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.status.properties.phase]
+description = "Current phase of PodGroup."
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.status.properties.running]
+description = "The number of actively running pods."
+format = "int32"
+type = "integer"
+
+[spec.versions.schema.openAPIV3Schema.properties.status.properties.scheduleStartTime]
+description = "ScheduleStartTime of the group"
+format = "date-time"
+type = "string"
+
+[spec.versions.schema.openAPIV3Schema.properties.status.properties.scheduled]
+description = "The number of actively running pods."
+format = "int32"
+type = "integer"
+
+[spec.versions.schema.openAPIV3Schema.properties.status.properties.succeeded]
+description = "The number of pods which reached phase Succeeded."
+format = "int32"
+type = "integer"
+
+[status]
+conditions = [ ]
+storedVersions = [ ]
+
+[status.acceptedNames]
+kind = ""
+plural = ""

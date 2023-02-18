@@ -1,0 +1,17 @@
+api-version = "v1"
+kind = "Service"
+
+[metadata]
+name = "my-nginx-svc"
+
+[metadata.labels]
+app = "nginx"
+
+[spec]
+type = "LoadBalancer"
+
+[[spec.ports]]
+port = 80
+
+[spec.selector]
+app = "nginx"

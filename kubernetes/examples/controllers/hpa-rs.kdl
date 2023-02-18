@@ -1,0 +1,14 @@
+api-version = "autoscaling/v2"
+kind = "HorizontalPodAutoscaler"
+
+[metadata]
+name = "frontend-scaler"
+
+[spec]
+min-replicas = 3
+max-replicas = 10
+target-cpu-utilization-percentage = 50
+
+[spec.scale-target-ref]
+kind = "ReplicaSet"
+name = "frontend"
