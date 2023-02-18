@@ -1,4 +1,4 @@
-# cilium
+# kfl-cilium
 
-- Homepage https://cilium.io/
-- Repository https://github.com/cilium/cilium
+- https://cilium.io/
+- https://github.com/cilium/cilium
