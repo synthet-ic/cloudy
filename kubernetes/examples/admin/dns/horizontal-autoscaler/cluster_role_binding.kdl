@@ -1,0 +1,4 @@
+cluster-role-binding "system:kube-dns-autoscaler" version="rbac.authorization.k8s.io/v1" {
+  (subject)service-account "kube-dns-autoscaler" namespace="kube-system"
+  role-ref api-group="rbac.authorization.k8s.io" kind="cluster-role" name="system:kube-dns-autoscaler"
+}

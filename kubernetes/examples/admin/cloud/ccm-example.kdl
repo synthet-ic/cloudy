@@ -1,0 +1,32 @@
+// This is an example of how to set up cloud-controller-manager as a Daemonset in your cluster.
+// It assumes that your masters can run pods and has the role node-role.kubernetes.io/master
+// Note that this Daemonset will not work straight out of the box for your cloud, this is
+// meant to be a guideline.
+
+service-account "cloud-controller-manager" namespace="kube-system" version="v1"
+
+cluster-role-binding "system:cloud-controller-manager"  version="rbac.authorization.k8s.io/v1" {
+  (subject)service-account "cloud-controller-manager" namespace="kube-system"
+  role-ref api-group="rbac.authorization.k8s.io" kind="cluster-role" name="cluster-admin"
+}
+
+daemon-set "cloud-controller-manager" namespace="kube-system" version="apps/v1" {
+  label key="k8s-app" value="cloud-controller-manager"
+  spec {
+    selector {
+      match-label key="k8s-app" value="cloud-controller-manager"
+    }
+    template {
+      label key="k8s-app" value="cloud-controller-manager"
+      spec service-account-name="cloud-controller-manager" {
+        container "cloud-controller-manager" image="registry.k8s.io/cloud-controller-manager" {
+          command "/usr/local/bin/cloud-controller-manager" cloud-provider="[YOUR_CLOUD_PROVIDER]" leader-elect=true use-service-account-credentials=true allocate-node-cidrs=true configure-cloud-routes=true cluster-cidr="172.17.0.0/16"
+        }
+        toleration key="node.cloudprovider.kubernetes.io/uninitialised" value="true" effect="no-schedule"
+        toleration key="node-role.kubernetes.io/control-plane" operator="exists" effect="no-schedule"
+        toleration key="node-role.kubernetes.io/master" operator="exists" effect="no-schedule"
+        node-selector key="node-role.kubernetes.io/master" value=""
+      }
+    }
+  }
+}

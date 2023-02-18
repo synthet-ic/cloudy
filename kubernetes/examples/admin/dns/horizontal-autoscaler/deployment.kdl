@@ -1,0 +1,26 @@
+deployment "kube-dns-autoscaler" namespace="kube-system" version="apps/v1" {
+  label key="k8s-app" value="kube-dns-autoscaler"
+  label key="kubernetes.io/cluster-service" value="true"
+  spec {
+    selector {
+      match-label key="k8s-app" value="kube-dns-autoscaler"
+    }
+    template {
+      label key="k8s-app" value="kube-dns-autoscaler"
+      spec priority-class-name="system-cluster-critical" service-account-name="kube-dns-autoscaler" {
+        security-context fs-group=65534 {
+          supplemental-groups 65534
+          seccomp-profile type="runtime-default"
+        }
+        node-selector key="kubernetes.io/os" value="linux"
+        container "autoscaler" image="registry.k8s.io/cpa/cluster-proportional-autoscaler" {
+          command "/cluster-proportional-autoscaler" namespace="kube-system" config-map="kube-dns-autoscaler" target="<SCALE_TARGET>" default-params="{\"linear\":{\"coresPerReplica\":256,\"nodesPerReplica\":16,\"preventSinglePointFailure\":true,\"includeUnschedulableNodes\":true}}" logtostderr=true -v=2
+          resources {
+            requests cpu="20m" memory="10Mi"
+          }
+        }
+        toleration key="critical-addon-only" operator="exists"
+      }
+    }
+  }
+}

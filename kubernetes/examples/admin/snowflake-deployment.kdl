@@ -12,4 +12,3 @@ deployment "snowflake" version="apps/v1" {
     }
   }
 }
-

@@ -1,0 +1,14 @@
+cron-job "hello" version="batch/v1" {
+  spec schedule="* * * * *" {
+    job-template {
+      spec {
+        template {
+          spec restart-policy="on-failure"
+          container "hello" image="busybox" image-pull-policy="if-not-present" {
+            command "/bin/sh" c="date; echo Hello from the Kubernetes cluster"
+          }
+        }
+      }
+    }
+  }
+}
