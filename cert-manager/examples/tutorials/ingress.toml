@@ -1,16 +1,10 @@
-api-version = "networking.k8s.io/v1"
-kind = "Ingress"
-
-[metadata]
-name = "web-ingress"
-
-[metadata.annotations]
-"kubernetes.io/ingress.class" = "gce"
-"kubernetes.io/ingress.allow-http" = "true"
-"kubernetes.io/ingress.global-static-ip-name" = "web-ip"
-
-[spec.default-backend.service]
-name = "web"
-
-[spec.default-backend.service.port]
-number = 8080
+ingress "web-ingress" version="networking.k8s.io/v1" {
+  meta {
+    annotation key="kubernetes.io/ingress.class" value="gce"
+    annotation key="kubernetes.io/ingress.allow-http" value="true"
+    annotation key="kubernetes.io/ingress.global-static-ip-name" value="web-ip"
+  }
+  default-backend {
+    service "web" port=8080
+  }
+}
