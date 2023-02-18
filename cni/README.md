@@ -1,4 +1,4 @@
-# CNI (Container Network Interface)
+# kfl-cni
 
-- Homepage https://www.cni.dev/
-- Repository https://github.com/containernetworking/cni
+- https://www.cni.dev/
+- https://github.com/containernetworking/cni
