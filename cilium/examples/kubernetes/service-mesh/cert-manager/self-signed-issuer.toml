@@ -1,0 +1,9 @@
+api-version = "cert-manager.io/v1"
+kind = "Issuer"
+
+[metadata]
+name = "self-signed"
+namespace = "default"
+
+[spec]
+self-signed = { }

@@ -1,0 +1,44 @@
+api-version = "cilium.io/v2"
+kind = "CiliumClusterwideEnvoyConfig"
+
+[metadata]
+name = "envoy-prometheus-metrics-listener"
+
+[[spec.resources]]
+"@type" = "type.googleapis.com/envoy.config.listener.v3.Listener"
+name = "envoy-prometheus-metrics-listener"
+
+[spec.resources.address.socket-address]
+address = "::"
+ipv4-compat = true
+port-value = 9090
+
+[[spec.resources.filter-chains]]
+[[spec.resources.filter-chains.filters]]
+name = "envoy.filters.network.http_connection_manager"
+
+[spec.resources.filter-chains.filters.typed-config]
+"@type" = "type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager"
+stat-prefix = "envoy-prometheus-metrics-listener"
+
+[spec.resources.filter-chains.filters.typed-config.rds]
+route-config-name = "prometheus-route"
+
+[[spec.resources.filter-chains.filters.typed-config.http-filters]]
+name = "envoy.filters.http.router"
+
+[[spec.resources]]
+"@type" = "type.googleapis.com/envoy.config.route.v3.RouteConfiguration"
+name = "prometheus-route"
+
+[[spec.resources.virtual-hosts]]
+name = "prometheus_metrics_route"
+domains = [ "*" ]
+
+[[spec.resources.virtual-hosts.routes]]
+[spec.resources.virtual-hosts.routes.match]
+path = "/metrics"
+
+[spec.resources.virtual-hosts.routes.route]
+cluster = "envoy-admin"
+prefix-rewrite = "/stats/prometheus"

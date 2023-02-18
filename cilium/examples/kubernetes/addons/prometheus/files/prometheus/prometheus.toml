@@ -1,0 +1,166 @@
+rule-files = [ "/etc/prometheus-rules/*.rules" ]
+
+[global]
+scrape-interval = "10s"
+scrape-timeout = "10s"
+evaluation-interval = "10s"
+
+[[scrape-configs]]
+job-name = "kubernetes-endpoints"
+
+[[scrape-configs.kubernetes-sd-configs]]
+role = "endpoints"
+
+[[scrape-configs.relabel-configs]]
+source-labels = [ "__meta_kubernetes_pod_label_k8s_app" ]
+action = "keep"
+regex = "cilium"
+
+[[scrape-configs.relabel-configs]]
+source-labels = [ "__meta_kubernetes_service_annotation_prometheus_io_scrape" ]
+action = "keep"
+regex = true
+
+[[scrape-configs.relabel-configs]]
+source-labels = [ "__meta_kubernetes_service_annotation_prometheus_io_scheme" ]
+action = "replace"
+target-label = "__scheme__"
+regex = "(https?)"
+
+[[scrape-configs.relabel-configs]]
+source-labels = [ "__meta_kubernetes_service_annotation_prometheus_io_path" ]
+action = "replace"
+target-label = "__metrics_path__"
+regex = "(.+)"
+
+[[scrape-configs.relabel-configs]]
+source-labels = [
+"__address__",
+"__meta_kubernetes_service_annotation_prometheus_io_port"
+]
+action = "replace"
+target-label = "__address__"
+regex = "(.+)(?::\\d+);(\\d+)"
+replacement = "$1:$2"
+
+[[scrape-configs.relabel-configs]]
+action = "labelmap"
+regex = "__meta_kubernetes_service_label_(.+)"
+
+[[scrape-configs.relabel-configs]]
+source-labels = [ "__meta_kubernetes_namespace" ]
+action = "replace"
+target-label = "namespace"
+
+[[scrape-configs.relabel-configs]]
+source-labels = [ "__meta_kubernetes_service_name" ]
+action = "replace"
+target-label = "service"
+
+[[scrape-configs]]
+job-name = "kubernetes-pods"
+
+[[scrape-configs.kubernetes-sd-configs]]
+role = "pod"
+
+[[scrape-configs.relabel-configs]]
+source-labels = [ "__meta_kubernetes_pod_annotation_prometheus_io_scrape" ]
+action = "keep"
+regex = true
+
+[[scrape-configs.relabel-configs]]
+source-labels = [ "__meta_kubernetes_pod_annotation_prometheus_io_path" ]
+action = "replace"
+target-label = "__metrics_path__"
+regex = "(.+)"
+
+[[scrape-configs.relabel-configs]]
+source-labels = [
+"__address__",
+"__meta_kubernetes_pod_annotation_prometheus_io_port"
+]
+action = "replace"
+regex = "(.+):(?:\\d+);(\\d+)"
+replacement = "${1}:${2}"
+target-label = "__address__"
+
+[[scrape-configs.relabel-configs]]
+action = "labelmap"
+regex = "__meta_kubernetes_pod_label_(.+)"
+
+[[scrape-configs.relabel-configs]]
+source-labels = [ "__meta_kubernetes_namespace" ]
+action = "replace"
+target-label = "namespace"
+
+[[scrape-configs.relabel-configs]]
+source-labels = [ "__meta_kubernetes_pod_name" ]
+action = "replace"
+target-label = "pod"
+
+[[scrape-configs.relabel-configs]]
+source-labels = [ "__meta_kubernetes_pod_container_port_number" ]
+action = "keep"
+regex = "\\d+"
+
+[[scrape-configs]]
+job-name = "kubernetes-services"
+metrics-path = "/metrics"
+
+[scrape-configs.params]
+module = [ "http_2xx" ]
+
+[[scrape-configs.kubernetes-sd-configs]]
+role = "service"
+
+[[scrape-configs.relabel-configs]]
+source-labels = [ "__meta_kubernetes_service_annotation_prometheus_io_probe" ]
+action = "keep"
+regex = true
+
+[[scrape-configs.relabel-configs]]
+source-labels = [
+  "__address__",
+  "__meta_kubernetes_pod_annotation_prometheus_io_port"
+]
+action = "replace"
+regex = "([^:]+)(?::\\d+)?;(\\d+)"
+replacement = "${1}:${2}"
+target-label = "__address__"
+
+[[scrape-configs.relabel-configs]]
+action = "labelmap"
+regex = "__meta_kubernetes_service_label_(.+)"
+
+[[scrape-configs.relabel-configs]]
+source-labels = [ "__meta_kubernetes_namespace" ]
+target-label = "namespace"
+
+[[scrape-configs.relabel-configs]]
+source-labels = [ "__meta_kubernetes_service_name" ]
+target-label = "service"
+
+[[scrape-configs]]
+job-name = "kubernetes-cadvisor"
+scheme = "https"
+bearer-token-file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+
+[scrape-configs.tls_config]
+ca-file = "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+
+[[scrape-configs.kubernetes-sd-configs]]
+role = "node"
+
+[[scrape-configs.relabel-configs]]
+action = "labelmap"
+regex = "__meta_kubernetes_node_label_(.+)"
+
+[[scrape-configs.relabel-configs]]
+target-label = "__address__"
+replacement = "kubernetes.default.svc:443"
+
+[[scrape-configs.relabel-configs]]
+source-labels = [ "__meta_kubernetes_node_name" ]
+regex = "(.+)"
+target-label = "__metrics_path__"
+replacement = "/api/v1/nodes/${1}/proxy/metrics/cadvisor"

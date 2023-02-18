@@ -1,0 +1,85 @@
+api-version = "cilium.io/v2"
+kind = "CiliumClusterwideEnvoyConfig"
+
+[metadata]
+name = "envoy-lb-listener"
+
+[[spec.services]]
+name = "echo-service-1"
+namespace = "default"
+
+[[spec.services]]
+name = "echo-service-2"
+namespace = "default"
+
+[[spec.resources]]
+"@type" = "type.googleapis.com/envoy.config.listener.v3.Listener"
+name = "envoy-lb-listener"
+
+[[spec.resources.filter-chains]]
+[[spec.resources.filter-chains.filters]]
+name = "envoy.filters.network.http_connection_manager"
+
+[spec.resources.filter-chains.filters.typed-config]
+"@type" = "type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager"
+stat-prefix = "envoy-lb-listener"
+
+[spec.resources.filter-chains.filters.typed-config.rds]
+route-config-name = "lb_route"
+
+[[spec.resources.filter-chains.filters.typed-config.http_filters]]
+name = "envoy.filters.http.router"
+
+[[spec.resources]]
+"@type" = "type.googleapis.com/envoy.config.route.v3.RouteConfiguration"
+name = "lb_route"
+
+[[spec.resources.virtual-hosts]]
+name = "lb_route"
+domains = [ "*" ]
+
+[[spec.resources.virtual-hosts.routes]]
+[spec.resources.virtual-hosts.routes.match]
+prefix = "/"
+
+[[spec.resources.virtual-hosts.routes.route.weighted-clusters.clusters]]
+name = "default/echo-service-1"
+weight = 50
+
+[[spec.resources.virtual-hosts.routes.route.weighted-clusters.clusters]]
+name = "default/echo-service-2"
+weight = 50
+
+[spec.resources.virtual-hosts.routes.route.retry-policy]
+retry-on = "5xx"
+num-retries = 3
+per-try-timeout = "1s"
+
+[spec.resources.virtual-hosts.routes.route.regex-rewrite]
+substitution = "/"
+
+[spec.resources.virtual-hosts.routes.route.regex-rewrite.pattern]
+google-re2 = { }
+regex = "^/foo.*$"
+
+[[spec.resources]]
+"@type" = "type.googleapis.com/envoy.config.cluster.v3.Cluster"
+name = "default/echo-service-1"
+connect-timeout = "5s"
+lb-policy = "ROUND_ROBIN"
+type = "EDS"
+
+[spec.resources.outlier-detection]
+split-external-local-origin-errors = true
+consecutive-local-origin-failure = 2
+
+[[spec.resources]]
+"@type" = "type.googleapis.com/envoy.config.cluster.v3.Cluster"
+name = "default/echo-service-2"
+connect-timeout = "3s"
+lb-policy = "ROUND_ROBIN"
+type = "EDS"
+
+[spec.resources.outlier-detection]
+split-external-local-origin-errors = true
+consecutive-local-origin-failure = 2

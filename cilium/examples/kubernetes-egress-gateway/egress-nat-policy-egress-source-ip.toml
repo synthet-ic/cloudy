@@ -1,0 +1,15 @@
+api-version = "cilium.io/v2alpha1"
+kind = "CiliumEgressNATPolicy"
+
+[metadata]
+name = "egress-sample"
+
+[spec]
+destination-cidrs = [ "192.168.60.13/32" ]
+egress-source-ip = "192.168.60.100"
+
+[[spec.egress]]
+[spec.egress.pod-selector.match-labels]
+org = "empire"
+class = "mediabot"
+"io.kubernetes.pod.namespace" = "default"

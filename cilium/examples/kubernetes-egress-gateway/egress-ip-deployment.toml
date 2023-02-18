@@ -1,0 +1,55 @@
+api-version = "apps/v1"
+kind = "Deployment"
+
+[metadata]
+name = "egress-ip-assign"
+
+[metadata.labels]
+name = "egress-ip-assign"
+
+[spec]
+replicas = 1
+
+[spec.selector.match-labels]
+name = "egress-ip-assign"
+
+[spec.template.metadata.labels]
+name = "egress-ip-assign"
+
+[spec.template.spec]
+host-network = true
+
+[[spec.template.spec.affinity.pod-affinity.required-during-scheduling-ignored-during-execution]]
+topology-key = "kubernetes.io/hostname"
+
+[[spec.template.spec.affinity.pod-affinity.required-during-scheduling-ignored-during-execution.label-selector.match-expressions]]
+key = "class"
+operator = "In"
+values = [ "mediabot" ]
+
+[[spec.template.spec.affinity.pod-affinity.required-during-scheduling-ignored-during-execution.label-selector.match-expressions]]
+key = "org"
+operator = "In"
+values = [ "empire" ]
+
+[[spec.template.spec.containers]]
+name = "egress-ip"
+image = "docker.io/library/busybox"
+command = [ "/bin/sh", "-c" ]
+args = [
+  "for i in $EGRESS_IPS; do ip address add $i dev enp0s8; done; sleep 10000000"
+]
+
+[spec.template.spec.containers.security-context]
+privileged = true
+
+[[spec.template.spec.containers.env]]
+name = "EGRESS_IPS"
+value = "192.168.60.100/24 192.168.60.101/24"
+
+[spec.template.spec.containers.lifecycle.pre-stop.exec]
+command = [
+  "/bin/sh",
+  "-c",
+  "for i in $EGRESS_IPS; do ip address del $i dev enp0s8; done"
+]

@@ -1,0 +1,32 @@
+# Basic ingress for istio bookinfo demo application, which can be found in below
+# https://raw.githubusercontent.com/istio/istio/release-1.11/samples/bookinfo/platform/kube/bookinfo.yaml
+api-version = "networking.k8s.io/v1"
+kind = "Ingress"
+
+[metadata]
+name = "basic-ingress"
+namespace = "default"
+
+[spec]
+ingress-class-name = "cilium"
+
+[[spec.rules]]
+[[spec.rules.http.paths]]
+path = "/details"
+path-type = "Prefix"
+
+[spec.rules.http.paths.backend.service]
+name = "details"
+
+[spec.rules.http.paths.backend.service.port]
+number = 9080
+
+[[spec.rules.http.paths]]
+path-type = "Prefix"
+path = "/"
+
+[spec.rules.http.paths.backend.service]
+name = "product-page"
+
+[spec.rules.http.paths.backend.service.port]
+number = 9080

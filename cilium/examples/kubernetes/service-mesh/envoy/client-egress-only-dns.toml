@@ -1,0 +1,27 @@
+api-version = "cilium.io/v2"
+kind = "CiliumNetworkPolicy"
+
+[metadata]
+name = "client-egress-only-dns"
+
+[spec.endpoint-selector.match-labels]
+kind = "client"
+
+[[spec.egress]]
+[[spec.egress.to-ports]]
+[[spec.egress.to-ports.ports]]
+port = "53"
+protocol = "ANY"
+
+[[spec.egress.to-ports.rules.dns]]
+match-pattern = "*"
+
+[[spec.egress.to-endpoints]]
+[spec.egress.to-endpoints.match-labels]
+"k8s:io.kubernetes.pod.namespace" = "kube-system"
+"k8s:k8s-app" = "kube-dns"
+
+[[spec.egress.to-endpoints]]
+[spec.egress.to-endpoints.match-labels]
+"k8s:io.kubernetes.pod.namespace" = "kube-system"
+"k8s:k8s-app" = "coredns"

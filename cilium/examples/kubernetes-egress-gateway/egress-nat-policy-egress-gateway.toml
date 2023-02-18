@@ -1,0 +1,20 @@
+api-version = "cilium.io/v2"
+kind = "CiliumEgressGatewayPolicy"
+
+[metadata]
+name = "egress-sample"
+
+[spec]
+destination-cid-rs = [ "192.168.60.13/32" ]
+
+[[spec.selectors]]
+[spec.selectors.podSelector.match-labels]
+org = "empire"
+class = "mediabot"
+"io.kubernetes.pod.namespace" = "default"
+
+[spec.egress-gateway]
+egress-ip = "192.168.60.100"
+
+[spec.egress-gateway.node-selector.match-labels]
+egress-node = "test"

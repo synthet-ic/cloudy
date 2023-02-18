@@ -1,0 +1,16 @@
+api-version = "gateway.networking.k8s.io/v1beta1"
+kind = "Gateway"
+
+[metadata]
+name = "my-gateway"
+
+[spec]
+gatewayClassName = "cilium"
+
+[[spec.listeners]]
+protocol = "HTTP"
+port = 80
+name = "web-gw"
+
+[spec.listeners.allowed-routes.namespaces]
+from = "Same"

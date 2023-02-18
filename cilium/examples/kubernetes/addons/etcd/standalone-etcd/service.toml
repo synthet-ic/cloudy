@@ -1,0 +1,34 @@
+# This is a standalone etcd deployment for PoC or testing purposes. It runs a
+# single replica etcd using host networking. Data is stored in /var/etcd on the
+# host's disc. A scheduling toleration allows it to be scheduled before the
+# cluster is ready. A scheduling anti affinity ensures that never more than one
+# instance is running per node. A NodePort service makes etcd avaiable on a
+# stable address on all nodes without requiring DNS resolution to work
+#
+# etcd address:
+#   http://127.0.0.1:31079
+
+api-version = "v1"
+kind = "Service"
+
+[metadata]
+name = "etcd-cilium"
+
+[metadata.annotations]
+"service.alpha.kubernetes.io/tolerate-unready-endpoints" = "true"
+
+[spec]
+type = "NodePort"
+
+[[spec.ports]]
+port = 32379
+name = "client"
+node-port = 31079
+
+[[spec.ports]]
+port = 32380
+name = "peer"
+node-port = 31080
+
+[spec.selector]
+component = "cilium-etcd"

@@ -1,0 +1,32 @@
+# GRPC ingress for GCP microservice demo application
+# https://github.com/GoogleCloudPlatform/microservices-demo
+api-version = "networking.k8s.io/v1"
+kind = "Ingress"
+
+[metadata]
+name = "grpc-ingress"
+namespace = "default"
+
+[spec]
+ingress-class-name = "cilium"
+
+[[spec.rules]]
+[[spec.rules.http.paths]]
+path-type = "Prefix"
+path = "/hipstershop.ProductCatalogService"
+
+[spec.rules.http.paths.backend.service]
+name = "product-catalog-service"
+
+[spec.rules.http.paths.backend.service.port]
+number = 3550
+
+[[spec.rules.http.paths]]
+path-type = "Prefix"
+path = "/hipstershop.CurrencyService"
+
+[spec.rules.http.paths.backend.service]
+name = "currency-service"
+
+[spec.rules.http.paths.backend.service.port]
+number = 7000

@@ -1,0 +1,62 @@
+# TLS ingress example, requires the below two applications
+# https://raw.githubusercontent.com/istio/istio/release-1.11/samples/bookinfo/platform/kube/bookinfo.yaml
+# https://github.com/GoogleCloudPlatform/microservices-demo
+api-version = "networking.k8s.io/v1"
+kind = "Ingress"
+
+[metadata]
+name = "tls-ingress"
+namespace = "default"
+
+[spec]
+ingress-class-name = "cilium"
+
+[[spec.rules]]
+host = "hipstershop.cilium.rocks"
+
+[[spec.rules.http.paths]]
+path-type = "Prefix"
+path = "/hipstershop.ProductCatalogService"
+
+[spec.rules.http.paths.backend.service]
+name = "productcatalogservice"
+
+[spec.rules.http.paths.backend.service.port]
+number = 3550
+
+[[spec.rules.http.paths]]
+path-type = "Prefix"
+path = "/hipstershop.CurrencyService"
+
+[spec.rules.http.paths.backend.service]
+name = "currency-service"
+
+[spec.rules.http.paths.backend.service.port]
+number = 7000
+
+[[spec.rules]]
+host = "bookinfo.cilium.rocks"
+
+[[spec.rules.http.paths]]
+path-type = "Prefix"
+path = "/details"
+
+[spec.rules.http.paths.backend.service]
+name = "details"
+
+[spec.rules.http.paths.backend.service.port]
+number = 9080
+
+[[spec.rules.http.paths]]
+path-type = "Prefix"
+path = "/"
+
+[spec.rules.http.paths.backend.service]
+name = "product-page"
+
+[spec.rules.http.paths.backend.service.port]
+number = 9080
+
+[[spec.tls]]
+hosts = [ "bookinfo.cilium.rocks", "hipstershop.cilium.rocks" ]
+secret-name = "demo-cert"

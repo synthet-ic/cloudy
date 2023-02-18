@@ -1,0 +1,15 @@
+api-version = "v1"
+kind = "ConfigMap"
+
+[metadata]
+name = "grafana-config"
+namespace = "cilium-monitoring"
+
+[metadata.labels]
+app = "grafana"
+
+data = "{{ (.Files.Glob \"files/grafana-config/*\").AsConfig | indent 2 }}"
+
+# `kubectl apply` is unable to apply configmaps larger than 256KB,
+# therefore we create one configmap per dashboard here
+

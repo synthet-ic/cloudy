@@ -1,0 +1,11 @@
+api-version = 1
+
+[[providers]]
+name = "cilium-dashboard-config"
+org-id = 1
+folder = ""
+type = "file"
+disable-deletion = true
+
+[providers.options]
+path = "/configmap/dashboards/"
