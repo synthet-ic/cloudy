@@ -1,10 +1,10 @@
-deployment version="apps/v1" name="patch-demo" {
+deployment "patch-demo" version="apps/v1" {
   spec replicas=2 {
     selector {
-      match-labels app="nginx"
+      match-label key="app" value="nginx"
     }
     template {
-      labels app="nginx"
+      label key="app" value="nginx"
       spec {
         toleration effect="no-schedule" key="dedicated" value="test-team"
       }

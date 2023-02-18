@@ -1,12 +1,12 @@
-deployment version="apps/v1" name="nginx-deployment" {
+deployment "nginx-deployment" version="apps/v1" {
   spec min-ready-seconds=5 {
     selector {
-      match-labels app="nginx"
+      match-label key="app" value="nginx"
     }
     template {
-      labels app="nginx"
+      label key="app" value="nginx"
       spec {
-        container name="nginx" image="nginx" {
+        container "nginx" image="nginx" {
           port container-port=80
         }
       }
