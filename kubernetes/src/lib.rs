@@ -37,12 +37,9 @@ mod cri;
 
 use kfl::{Decode, DecodeScalar, ast::Literal};
 
-use authorisation::rbac::Rbac;
 // use config::{
 //     api_server::AdmissionConfiguration
 // };
-use self::core::Core;
-use kubeadm::Kubeadm;
 
 // #[derive(Debug, Decode)]
 // #[kfl(tag = "api-version")]
@@ -88,9 +85,11 @@ impl<S: kfl::traits::ErrorSpan> DecodeScalar<S> for IntOrString {
         -> Result<Self, kfl::errors::DecodeError<S>>
     {
         match &value.literal {
-            Literal::Int() => ,
-            Literal::String() => 
-            _ => Err
+            Literal::Int(_) => Ok(Self::Int(i32::decode(value, ctx))),
+            Literal::String(_) => Ok(Self::String(String::decode(value, ctx))),
+            _ => Err(kfl::errors::DecodeError::scalar_kind(
+                     kfl::decode::Kind::String,  // TODO(rnarkk) or Int
+                     &value.literal))
         }
     }
 }
