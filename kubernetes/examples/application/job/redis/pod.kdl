@@ -1,0 +1,9 @@
+pod "redis-master" namespace="default" version="v1" {
+  label key="app" value="redis"
+  spec {
+    container "master" image="redis" {
+      env name="MASTER" value="true"
+      port container-port=6379
+    }
+  }
+}

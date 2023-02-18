@@ -1,0 +1,14 @@
+ingress "tls-example-ingress" version="networking.k8s.io/v1" {
+  spec {
+    tls secret-name="test-secret-tls" {
+      hosts "https-example.foo.com"
+    }
+    rules {
+      http {
+        path "/" type="prefix" {
+          service "service-1" port=80
+        }
+      }
+    }
+  }
+}

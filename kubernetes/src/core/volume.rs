@@ -61,8 +61,12 @@ pub struct Volume {
 /// PersistentVolumeClaim references the user's PVC in the same namespace. This volume finds the bound PV and mounts that volume for the pod. A PersistentVolumeClaim is, essentially, a wrapper around another type of volume that is owned by someone else (the system).
 #[derive(Debug, Decode)]
 pub struct PersistentVolumeClaim {
-    claim_name: String,
-    read_only: Option<bool>
+    /// claimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims
+    #[kfl(argument)]
+    name: String,
+    /// readOnly Will force the ReadOnly setting in VolumeMounts. Default false.
+    #[kfl(property, default)]
+    read_only: bool
 }
 
 #[derive(Debug, Decode)]

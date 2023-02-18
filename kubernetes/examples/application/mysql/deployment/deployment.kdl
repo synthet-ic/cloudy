@@ -1,0 +1,21 @@
+deployment "mysql" namespace="kube-system" version="apps/v1" {
+  spec {
+    selector {
+      match-label key="app" value="mysql"
+    }
+    strategy type="recreate"
+    template {
+      label key="app" value="mysql"
+      spec {
+        container "mysql" image="mysql" {
+          env name="MYSQL_ROOT_PASSWORD" value="password"
+          port container-port=3306 name="mysql"
+          volume-mount "mysql-persistent-storage" path="/var/lib/mysql"
+        }
+        volume "mysql-persistent-storage" {
+          persistent-volume-claim "mysql-pv-claim"
+        }
+      }
+    }
+  }
+}

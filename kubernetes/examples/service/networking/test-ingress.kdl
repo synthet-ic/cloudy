@@ -1,0 +1,7 @@
+ingress "test-ingress" version="networking.k8s.io/v1" {
+  spec {
+    default-backend {
+      service "test" port=80
+    }
+  }
+}
