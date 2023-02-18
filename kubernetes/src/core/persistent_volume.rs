@@ -6,7 +6,7 @@ use std::{
     path::PathBuf
 };
 
-use kfl::Decode;
+use kfl::{Decode, DecodeScalar};
 
 use crate::{
     core::Reference,
@@ -26,7 +26,7 @@ pub struct PersistentVolume {
 /// <https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/persistent-volume-v1/#Spec>
 #[derive(Debug, Decode)]
 pub struct Spec {
-    /// `access_modes` contains all ways the volume can be mounted.
+    /// All ways the volume can be mounted.
     ///
     /// More info: <https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes>
     access_modes: Vec<AccessMode>,
@@ -42,7 +42,7 @@ pub struct Spec {
     ///
     /// More info: <https://kubernetes.io/docs/concepts/storage/persistent-volumes/#mount-options>
     mount_options: Vec<MountOption>,
-    /// `node_affinity` defines constraints that limit what nodes this volume can be accessed from. This field influences the scheduling of pods that use this volume.
+    /// Constraints that limit what nodes this volume can be accessed from. This field influences the scheduling of pods that use this volume.
     node_affinity: Option<NodeAffinity>,
     persistent_volume_reclaim_policy: Option<ReclaimPolicy>,
     storage_class_name: Option<String>,
