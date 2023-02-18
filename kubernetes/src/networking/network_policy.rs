@@ -6,7 +6,7 @@ use kfl::Decode;
 use crate::{
     meta::{
         condition::Condition,
-        label_selector::LabelSelector,
+        label_selector::Selector,
         metadata::Metadata
     },
     protocol::Protocol
@@ -23,7 +23,7 @@ pub struct NetworkPolicy {
 /// 
 #[derive(Debug, Decode)]
 pub struct NetworkPolicySpec {
-    pod_selector: LabelSelector,
+    pod_selector: Selector,
     policy_types: Vec<String>,
     ingress: Vec<NetworkPolicyIngressRule>,
     egress: Vec<NetworkPolicyEgressRule>
@@ -38,8 +38,8 @@ pub struct NetworkPolicyIngressRule {
 #[derive(Debug, Decode)]
 pub struct NetworkPolicyPeer {
     ip_block: IPBlock,
-    namespace_selector: LabelSelector,
-    pod_selector: LabelSelector
+    namespace_selector: Selector,
+    pod_selector: Selector
 }
 
 #[derive(Debug, Decode)]

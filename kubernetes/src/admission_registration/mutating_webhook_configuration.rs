@@ -5,7 +5,7 @@ use std::path::PathBuf;
 use kfl::Decode;
 
 use crate::meta::{
-    label_selector::LabelSelector,
+    label_selector::Selector,
     metadata::Metadata,
 };
 
@@ -25,8 +25,8 @@ pub struct MutatingWebhook {
     side_effects: String,
     failure_policy: Option<String>,
     match_policy: Option<String>,
-    namespace_selector: Option<LabelSelector>,
-    object_selector: Option<LabelSelector>,
+    namespace_selector: Option<Selector>,
+    object_selector: Option<Selector>,
     reinvocation_policy: Option<String>,
     rules: Vec<RuleWithOperations>,
     timeout_seconds: Option<i32>

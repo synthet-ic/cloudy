@@ -10,7 +10,7 @@ use kfl::{Decode, DecodeScalar};
 
 use crate::{
     core::{FieldSelector, LocalReference, ResourceFieldSelector, Volume},
-    meta::{Condition, LabelSelector, Metadata},
+    meta::{Condition, Selector, Metadata},
     node_selector::{NodeSelector, NodeSelectorTerm},
     protocol::Protocol,
     quantity::Quantity,
@@ -166,14 +166,14 @@ pub struct Spec {
     host_users: bool
 }
 
-/**
-- Concepts <https://kubernetes.io/docs/concepts/containers/>
-- Reference <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#Container>
-*/
+/// - Concepts <https://kubernetes.io/docs/concepts/containers/>
+/// - Reference <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#Container>
 #[derive(Debug, Decode)]
 pub struct Container {
     /// Name of the container specified as a DNS_LABEL. Each container in a pod must have a unique name (DNS_LABEL). Cannot be updated.
+    #[kfl(property)]
     name: String,
+
     // Image
     // <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image>
 
@@ -182,6 +182,7 @@ pub struct Container {
     /// More info: <https://kubernetes.io/docs/concepts/containers/images/>
     ///
     /// This field is optional to allow higher level config management to default or override container images in workload controllers like Deployments and StatefulSets.
+    #[kfl(property)]
     image: Option<String>,
     /// Image pull policy. One of `Always`, `Never`, `IfNotPresent`. Defaults to `Always` if `:latest` tag is specified, or `IfNotPresent` otherwise. Cannot be updated.
     ///
@@ -196,11 +197,9 @@ pub struct Container {
     ///
     /// More info: [Define a Command and Arguments for a Container](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell)
     command: Vec<String>,
-    /**
-    Arguments to the entrypoint. The container image's `CMD` is used if this is not provided. Variable references `$(VAR_NAME)` are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double `$$` are reduced to a single `$`, which allows for escaping the `$(VAR_NAME)` syntax: i.e. `"$$(VAR_NAME)"` will produce the string literal `"$(VAR_NAME)"`. Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated.
-    
-    More info: [Define a Command and Arguments for a Container](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell)
-    */
+    /// Arguments to the entrypoint. The container image's `CMD` is used if this is not provided. Variable references `$(VAR_NAME)` are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double `$$` are reduced to a single `$`, which allows for escaping the `$(VAR_NAME)` syntax: i.e. `"$$(VAR_NAME)"` will produce the string literal `"$(VAR_NAME)"`. Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated.
+    ///
+    /// More info: [Define a Command and Arguments for a Container](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell)
     args: Vec<String>,
     /// Container's working directory. If not specified, the container runtime's default will be used, which might be configured in the container image. Cannot be updated.
     working_dir: Option<PathBuf>,
@@ -209,7 +208,7 @@ pub struct Container {
     // <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#ports>
 
     /// List of ports to expose from the container. Not specifying a port here DOES NOT prevent that port from being exposed. Any port which is listening on the default `"0.0.0.0"` address inside a container will be accessible from the network. Modifying this array with strategic merge patch may corrupt the data. For more information See <https://github.com/kubernetes/kubernetes/issues/108255>. Cannot be updated.
-    ports: Vec<ContainerPort>,
+    ports: Vec<Port>,
 
     /*
     Environment Variables
@@ -292,15 +291,16 @@ pub enum ImagePullPolicy {
     IfNotPresent
 }
 
-/// ContainerPort represents a network port in a single container.
+/// Port represents a network port in a single container.
 #[derive(Debug, Decode)]
-pub struct ContainerPort {
-    /// Number of port to expose on the pod's IP address. This must be a valid port number, 0 < x < 65536.
+pub struct Port {
+    /// Number of port to expose on the pod's IP address.
+    #[kfl(property)]
     container_port: u16,
     /// What host IP to bind the external port to.
     #[kfl(property, default)]
     host_ip: Option<String>,
-    /// Number of port to expose on the host. If specified, this must be a valid port number, 0 < x < 65536. If HostNetwork is specified, this must match ContainerPort. Most containers do not need this.
+    /// Number of port to expose on the host. If HostNetwork is specified, this must match Port. Most containers do not need this.
     #[kfl(property, default)]
     host_port: Option<u16>,
     /// If specified, this must be an `IANA_SVC_NAME` and unique within the pod. Each named port in a pod must have a unique name. Name for the port that can be referred to by services.
@@ -541,8 +541,8 @@ pub struct WeightedPodAffinityTerm {
 #[derive(Debug, Decode)]
 pub struct PodAffinityTerm {
     topology_key: String,
-    label_selector: Option<LabelSelector>,
-    namespace_selector: Option<LabelSelector>,
+    label_selector: Option<Selector>,
+    namespace_selector: Option<Selector>,
     namespaces: Vec<String>
 }
 
@@ -597,7 +597,7 @@ pub struct TopologySpreadConstraint {
     max_skew: i32,
     topology_key: String,
     when_unsatisfiable: WhenUnsatisfiable,
-    label_selector: Option<LabelSelector>,
+    label_selector: Option<Selector>,
     match_label_keys: Vec<String>,
     min_domains: Option<i32>,
     node_affinity_policy: Option<String>,

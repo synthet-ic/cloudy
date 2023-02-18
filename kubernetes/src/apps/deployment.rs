@@ -14,7 +14,7 @@ use crate::{
     core::pod_template::PodTemplateSpec,
     meta::{
         condition::Condition,
-        label_selector::LabelSelector,
+        label_selector::Selector,
         metadata::Metadata
     },
     IntOrString
@@ -24,17 +24,15 @@ use crate::{
 #[derive(Debug, Decode)]
 pub struct Deployment {
     metadata: Option<Metadata>,
-    spec: Option<DeploymentSpec>,
-    status: Option<DeploymentStatus>
+    spec: Option<Spec>,
+    status: Option<Status>
 }
 
-/**
-<https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/#DeploymentSpec>
-
-DeploymentSpec is the specification of the desired behaviour of the Deployment.
-*/
+/// <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/#DeploymentSpec>
+///
+/// Spec is the specification of the desired behaviour of the Deployment.
 #[derive(Debug, Decode)]
-pub struct DeploymentSpec {
+pub struct Spec {
     /// Label selector for pods. Existing ReplicaSets whose pods are selected by this will be the ones affected by this deployment. It must match the pod template's labels.
     ///
     /// # Concepts
@@ -52,7 +50,7 @@ pub struct DeploymentSpec {
     /// > **Note**: You should not create other Pods whose labels match this selector, either directly, by creating another Deployment, or by creating another controller such as a ReplicaSet or a ReplicationController. If you do so, the first Deployment thinks that it created these other Pods. Kubernetes does not stop you from doing this.
     ///
     /// If you have multiple controllers that have overlapping selectors, the controllers will fight with each other and won't behave correctly.
-    selector: LabelSelector,
+    selector: Selector,
 
     /// `template` describes the pods that will be created.
     ///
@@ -108,42 +106,36 @@ pub struct DeploymentSpec {
     /// - The Deployment updates Pods in a rolling update fashion when `strategy.type` = `RollingUpdate`. You can specify `max_unavailable` and `max_surge` to control the rolling update process.
     strategy: Option<DeploymentStrategy>,
 
-    /**
-    The number of old ReplicaSets to retain to allow rollback. This is a pointer to distinguish between explicit zero and not specified. Defaults to `10`.
-
-    # Concepts
-
-    <https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#revision-history-limit>
-
-    A Deployment's revision history is stored in the ReplicaSets it controls.
-
-    `revision_history_limit` is an optional field that specifies the number of old ReplicaSets to retain to allow rollback. These old ReplicaSets consume resources in `etcd` and crowd the output of **kubectl get replicasets**. The configuration of each Deployment revision is stored in its ReplicaSets; therefore, once an old ReplicaSet is deleted, you lose the ability to rollback to that revision of Deployment. By default, `10` old ReplicaSets will be kept, however its ideal value depends on the frequency and stability of new Deployments.
-
-    More specifically, setting this field to `0` means that all old ReplicaSets with 0 replicas will be cleaned up. In this case, a new Deployment rollout cannot be undone, since its revision history is cleaned up.
-    */
+    /// The number of old ReplicaSets to retain to allow rollback. This is a pointer to distinguish between explicit zero and not specified. Defaults to `10`.
+    ///
+    /// # Concepts
+    ///
+    /// <https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#revision-history-limit>
+    ///
+    /// A Deployment's revision history is stored in the ReplicaSets it controls.
+    ///
+    /// `revision_history_limit` is an optional field that specifies the number of old ReplicaSets to retain to allow rollback. These old ReplicaSets consume resources in `etcd` and crowd the output of **kubectl get replicasets**. The configuration of each Deployment revision is stored in its ReplicaSets; therefore, once an old ReplicaSet is deleted, you lose the ability to rollback to that revision of Deployment. By default, `10` old ReplicaSets will be kept, however its ideal value depends on the frequency and stability of new Deployments.
+    ///
+    /// More specifically, setting this field to `0` means that all old ReplicaSets with 0 replicas will be cleaned up. In this case, a new Deployment rollout cannot be undone, since its revision history is cleaned up.
     revision_history_limit: Option<u16>,
 
-    /**
-    The maximum time in seconds for a deployment to make progress before it is considered to be failed. The deployment controller will continue to process failed deployments and a condition with a `ProgressDeadlineExceeded` reason will be surfaced in the deployment status. Note that progress will not be estimated during the time a deployment is paused. Defaults to `600`.
-
-    # Concepts
-
-    <https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#progress-deadline-seconds>
-
-    `progress_deadline_seconds` is an optional field that specifies the number of seconds you want to wait for your Deployment to progress before the system reports back that the Deployment has [failed progressing](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#failed-deployment) - surfaced as a condition with `type`: `Progressing`, `status`: `False`. and `reason`: `ProgressDeadlineExceeded` in the status of the resource. The Deployment controller will keep retrying the Deployment. This defaults to 600. In the future, once automatic rollback will be implemented, the Deployment controller will roll back a Deployment as soon as it observes such a condition.
-
-    If specified, this field needs to be greater than [`min_ready_seconds`][Self::min_ready_seconds].
-    */
+    /// The maximum time in seconds for a deployment to make progress before it is considered to be failed. The deployment controller will continue to process failed deployments and a condition with a `ProgressDeadlineExceeded` reason will be surfaced in the deployment status. Note that progress will not be estimated during the time a deployment is paused. Defaults to `600`.
+    ///
+    /// # Concepts
+    ///
+    /// <https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#progress-deadline-seconds>
+    ///
+    /// `progress_deadline_seconds` is an optional field that specifies the number of seconds you want to wait for your Deployment to progress before the system reports back that the Deployment has [failed progressing](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#failed-deployment) - surfaced as a condition with `type`: `Progressing`, `status`: `False`. and `reason`: `ProgressDeadlineExceeded` in the status of the resource. The Deployment controller will keep retrying the Deployment. This defaults to 600. In the future, once automatic rollback will be implemented, the Deployment controller will roll back a Deployment as soon as it observes such a condition.
+    ///
+    /// If specified, this field needs to be greater than [`min_ready_seconds`][Self::min_ready_seconds].
     progress_deadline_seconds: Option<u16>,
-    /**
-    Indicates that the deployment is paused.
-
-    # Concepts
-
-    <https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#paused>
-
-    `paused` is an optional boolean field for pausing and resuming a Deployment. The only difference between a paused Deployment and one that is not paused, is that any changes into the PodTemplateSpec of the paused Deployment will not trigger new rollouts as long as it is paused. A Deployment is not paused by default when it is created.
-    */
+    /// Indicates that the deployment is paused.
+    ///
+    /// # Concepts
+    ///
+    /// <https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#paused>
+    ///
+    /// `paused` is an optional boolean field for pausing and resuming a Deployment. The only difference between a paused Deployment and one that is not paused, is that any changes into the PodTemplateSpec of the paused Deployment will not trigger new rollouts as long as it is paused. A Deployment is not paused by default when it is created.
     paused: Option<bool>
 }
 
@@ -169,20 +161,18 @@ pub struct RollingUpdateDeployment {
     max_unavailable: Option<IntOrString>
 }
 
-/**
-<https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/#DeploymentStatus>
-
-# Concepts
-
-<https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#deployment-status>
-
-A Deployment enters various states during its lifecycle. It can be progressing while rolling out a new ReplicaSet, it can be complete, or it can fail to progress.
-*/
+/// <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/#DeploymentStatus>
+///
+/// # Concepts
+///
+/// <https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#deployment-status>
+///
+/// A Deployment enters various states during its lifecycle. It can be progressing while rolling out a new ReplicaSet, it can be complete, or it can fail to progress.
 #[derive(Debug, Decode)]
-pub struct DeploymentStatus {
+pub struct Status {
     /// Total number of non-terminated pods targeted by this deployment (their labels match the selector).
     replicas: Option<u16>,
-    /// Total number of available pods (ready for at least [`min_ready_seconds`][DeploymentSpec::min_ready_seconds]) targeted by this deployment.
+    /// Total number of available pods (ready for at least [`min_ready_seconds`][Spec::min_ready_seconds]) targeted by this deployment.
     available_replicas: Option<u16>,
     /// `ready_replicas` is the number of pods targeted by this Deployment with a `Ready` Condition.
     ready_replicas: Option<u16>,

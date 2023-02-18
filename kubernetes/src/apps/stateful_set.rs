@@ -12,7 +12,7 @@ use crate::{
     },
     meta::{
         condition::Condition,
-        label_selector::LabelSelector,
+        label_selector::Selector,
         metadata::Metadata,
     },
 };
@@ -34,7 +34,7 @@ pub struct StatefulSetSpec {
     /// `selector` is a label query over pods that should match the replica count. It must match the pod template's labels.
     ///
     /// More info: <https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors>
-    selector: LabelSelector,
+    selector: Selector,
     /// `template` is the object that describes the pod that will be created if insufficient replicas are detected. Each pod stamped out by the StatefulSet will fulfill this Template, but have a unique identity from the rest of the StatefulSet.
     template: PodTemplateSpec,
     /// `replicas` is the desired number of replicas of the given Template. These are replicas in the sense that they are instantiations of the same Template, but individual replicas also have a consistent identity. If unspecified, defaults to `1`.

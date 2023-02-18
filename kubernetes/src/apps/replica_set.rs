@@ -9,7 +9,7 @@ use crate::{
     core::pod_template::PodTemplateSpec,
     meta::{
         condition::Condition,
-        label_selector::LabelSelector,
+        label_selector::Selector,
         metadata::Metadata
     },
 };
@@ -24,7 +24,7 @@ pub struct ReplicaSet {
 /// <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/replica-set-v1/#ReplicaSetSpec>
 #[derive(Debug, Decode)]
 pub struct ReplicaSetSpec {
-    selector: LabelSelector,
+    selector: Selector,
     template: Option<PodTemplateSpec>,
     replicas: Option<i32>,
     min_ready_seconds: Option<i32>,

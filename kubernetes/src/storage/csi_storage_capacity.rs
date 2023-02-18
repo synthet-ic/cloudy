@@ -4,7 +4,7 @@ use kfl::Decode;
 
 use crate::{
     meta::{
-        label_selector::LabelSelector,
+        label_selector::Selector,
         metadata::Metadata,
     },
     quantity::Quantity
@@ -17,5 +17,5 @@ pub struct CsiStorageCapacity {
     storage_class_name: String,
     capacity: Option<Quantity>,
     maximum_volume_size: Option<Quantity>,
-    node_topology: Option<LabelSelector>
+    node_topology: Option<Selector>
 }

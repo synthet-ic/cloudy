@@ -1,0 +1,15 @@
+deployment version="apps/v1" name="nginx-deployment" {
+  spec replicas=2 {
+    selector {
+      match-labels app="nginx"
+    }
+    template {
+      labels app="nginx"
+      spec {
+        container name="nginx" image="nginx" {
+          port container-port=80
+        }
+      }
+    }
+  }
+}

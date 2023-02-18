@@ -1,0 +1,13 @@
+deployment version="apps/v1" name="patch-demo" {
+  spec replicas=2 {
+    selector {
+      match-labels app="nginx"
+    }
+    template {
+      labels app="nginx"
+      spec {
+        toleration effect="no-schedule" key="dedicated" value="test-team"
+      }
+    }
+  }
+}

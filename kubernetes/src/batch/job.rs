@@ -7,7 +7,7 @@ use crate::{
     core::pod_template::PodTemplateSpec,
     meta::{
         condition::Condition,
-        label_selector::LabelSelector,
+        label_selector::Selector,
         metadata::Metadata
     },
     time::Time
@@ -69,7 +69,7 @@ pub struct Spec {
     /// A label query over pods that should match the pod count. Normally, the system sets this field for you.
     ///
     /// More info: <https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors>
-    selector: Option<LabelSelector>,
+    selector: Option<Selector>,
     /// Controls generation of pod labels and pod selectors. Leave `manual_selector` unset unless you are certain what you are doing. When `false` or unset, the system pick labels unique to this job and appends those labels to the pod template. When `true`, the user is responsible for picking unique labels and specifying the selector. Failure to pick a unique label may cause this and other jobs not to function correctly. However, You may see `manual_selector` = `true` in jobs that were created with the old `extensions/v1beta1` API.
     ///
     /// More info: <https://kubernetes.io/docs/concepts/workloads/controllers/job/#specifying-your-own-pod-selector>

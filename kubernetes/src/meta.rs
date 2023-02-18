@@ -5,5 +5,5 @@ pub mod metadata;
 pub mod status;
 
 pub use condition::Condition;
-pub use label_selector::LabelSelector;
+pub use label_selector::Selector;
 pub use metadata::Metadata;

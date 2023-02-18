@@ -11,7 +11,7 @@ use crate::{
     },
     meta::{
         condition::Condition,
-        label_selector::LabelSelector,
+        label_selector::Selector,
         metadata::Metadata
     },
     quantity::Quantity,
@@ -29,7 +29,7 @@ pub struct PersistentVolumeClaim {
 #[derive(Debug, Decode)]
 pub struct Spec {
     access_modes: Vec<AccessMode>,
-    selector: Option<LabelSelector>,
+    selector: Option<Selector>,
     resources: Option<Resource>,
     volume_name: Option<String>,
     storage_class_name: Option<String>,
