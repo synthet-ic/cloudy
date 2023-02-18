@@ -1,13 +1,13 @@
-api-version = "v1"
-kind = "Pod"
+version="v1"
+kind="Pod"
 
 [metadata]
-name = "hello-apparmor"
+name="hello-apparmor"
 
 [metadata.annotations]
-"container.apparmor.security.beta.kubernetes.io/hello" = "localhost/k8s-apparmor-example-deny-write"
+"container.apparmor.security.beta.kubernetes.io/hello"="localhost/k8s-apparmor-example-deny-write"
 
 [[spec.containers]]
-name = "hello"
-image = "busybox"
-command = [ "sh", "-c", "echo 'Hello AppArmor!' && sleep 1h" ]
+name="hello"
+image="busybox"
+command=[ "sh", "-c", "echo 'Hello AppArmor!' && sleep 1h" ]

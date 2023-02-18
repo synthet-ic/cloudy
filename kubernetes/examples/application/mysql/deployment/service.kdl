@@ -1,14 +1,6 @@
-api-version = "v1"
-kind = "Service"
-
-[metadata]
-name = "mysql"
-
-[spec]
-cluster-ip = "None"
-
-[[spec.ports]]
-port = 3306
-
-[spec.selector]
-app = "mysql"
+service "mysql" version="v1" {
+  spec cluster-ip="none" {
+    selector key="app" value="mysql"
+    port 3306
+  }
+}

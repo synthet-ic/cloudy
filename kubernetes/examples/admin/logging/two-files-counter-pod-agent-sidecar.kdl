@@ -1,44 +1,38 @@
-api-version = "v1"
-kind = "Pod"
-
-[metadata]
-name = "counter"
-
+pod "counter" version="v1" {
+  spec {
+    container "count" image="busybox" {
+      args "/bin/sh" c="i=0; while true; do\n  echo \"$i: $(date)\" >> /var/log/1.log;\n  echo \"$(date) INFO $i\" >> /var/log/2.log;\n  i=$((i+1));\n  sleep 1;\ndone\n"
+    }
+  }
+}
 [[spec.containers]]
-name = "count"
-image = "busybox"
-  args = [
-  "/bin/sh",
-  "-c",
-  "i=0; while true; do\n  echo \"$i: $(date)\" >> /var/log/1.log;\n  echo \"$(date) INFO $i\" >> /var/log/2.log;\n  i=$((i+1));\n  sleep 1;\ndone\n"
-]
 
 [[spec.containers.volume-mounts]]
-name = "varlog"
-mount-path = "/var/log"
+name="varlog"
+mount-path="/var/log"
 
 [[spec.containers]]
-name = "count-agent"
-image = "registry.k8s.io/fluentd-gcp"
+name="count-agent"
+image="registry.k8s.io/fluentd-gcp"
 
 [[spec.containers.env]]
-name = "FLUENTD_ARGS"
-value = "-c /etc/fluentd-config/fluentd.conf"
+name="FLUENTD_ARGS"
+value="-c /etc/fluentd-config/fluentd.conf"
 
 [[spec.containers.volume-mounts]]
-name = "varlog"
-mount-path = "/var/log"
+name="varlog"
+mount-path="/var/log"
 
 [[spec.containers.volume-mounts]]
-name = "config-volume"
-mount-path = "/etc/fluentd-config"
+name="config-volume"
+mount-path="/etc/fluentd-config"
 
 [[spec.volumes]]
-name = "varlog"
-empty-dir = { }
+name="varlog"
+empty-dir={ }
 
 [[spec.volumes]]
-name = "config-volume"
+name="config-volume"
 
 [spec.volumes.config-map]
-name = "fluentd-config"
+name="fluentd-config"

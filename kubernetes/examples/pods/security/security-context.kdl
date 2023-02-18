@@ -1,26 +1,26 @@
-api-version = "v1"
-kind = "Pod"
+version="v1"
+kind="Pod"
 
 [metadata]
-name = "security-context-demo"
+name="security-context-demo"
 
 [[spec.containers]]
-name = "security-context-demo"
-image = "busybox"
-command = [ "sh", "-c", "sleep 1h" ]
+name="security-context-demo"
+image="busybox"
+command=[ "sh", "-c", "sleep 1h" ]
 
 [[spec.containers.volume-mounts]]
-mount-path = "/data/demo"
-name = "security-context-volume"
+mount-path="/data/demo"
+name="security-context-volume"
 
 [spec.containers.security-context]
-allow-privilege-escalation = false
+allow-privilege-escalation=false
 
 [[spec.volumes]]
-name = "security-context-volume"
-empty-dir = { }
+name="security-context-volume"
+empty-dir={ }
 
 [spec.security-context]
-run-as-user = 1000
-run-as-group = 3000
-fs-group = 2000
+run-as-user=1000
+run-as-group=3000
+fs-group=2000

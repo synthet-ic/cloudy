@@ -1,23 +1,23 @@
-api-version = "v1"
-kind = "Pod"
+version="v1"
+kind="Pod"
 
 [metadata]
-name = "task-pv-pod"
+name="task-pv-pod"
 
 [[spec.volumes]]
-name = "task-pv-storage"
+name="task-pv-storage"
 
 [spec.volumes.persistent-volume-claim]
-claim-name = "task-pv-claim"
+claim-name="task-pv-claim"
 
 [[spec.containers]]
-name = "task-pv-container"
-image = "nginx"
+name="task-pv-container"
+image="nginx"
 
 [[spec.containers.ports]]
-container-port = 80
-name = "http-server"
+container-port=80
+name="http-server"
 
 [[spec.containers.volume-mounts]]
-mount-path = "/usr/share/nginx/html"
-name = "task-pv-storage"
+mount-path="/usr/share/nginx/html"
+name="task-pv-storage"

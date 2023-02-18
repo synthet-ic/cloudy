@@ -1,20 +1,20 @@
-api-version = "v1"
-kind = "ConfigMap"
+version="v1"
+kind="ConfigMap"
 
 [metadata]
-name = "mysql"
+name="mysql"
 
 [metadata.labels]
-app = "mysql"
-"app.kubernetes.io/name" = "mysql"
+app="mysql"
+"app.kubernetes.io/name"="mysql"
 
 [data]
-"primary.cnf" = """
+"primary.cnf"="""
 # Apply this config only on the primary.
 [mysqld]
 log-bin
 """
-"replica.cnf" = """
+"replica.cnf"="""
 # Apply this config only on replicas.
 [mysqld]
 super-read-only

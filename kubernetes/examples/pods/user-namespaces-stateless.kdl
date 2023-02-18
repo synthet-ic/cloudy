@@ -1,13 +1,13 @@
-api-version = "v1"
-kind = "Pod"
+version="v1"
+kind="Pod"
 
 [metadata]
-name = "userns"
+name="userns"
 
-[spec]
-host-users = false
+spec {}
+host-users=false
 
 [[spec.containers]]
-name = "shell"
-image = "debian"
-command = [ "sleep", "infinity" ]
+name="shell"
+image="debian"
+command=[ "sleep", "infinity" ]

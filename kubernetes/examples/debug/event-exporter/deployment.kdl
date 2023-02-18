@@ -1,27 +1,27 @@
-api-version = "apps/v1"
-kind = "Deployment"
+version="apps/v1"
+kind="Deployment"
 
 [metadata]
-name = "event-exporter"
-namespace = "default"
+name="event-exporter"
+namespace="default"
 
 [metadata.labels]
-app = "event-exporter"
+app="event-exporter"
 
-[spec]
-replicas = 1
+spec {}
+replicas=1
 
 [spec.selector.match-labels]
-app = "event-exporter"
+app="event-exporter"
 
 [spec.template.metadata.labels]
-app = "event-exporter"
+app="event-exporter"
 
 [spec.template.spec]
-service-account-name = "event-exporter-sa"
-termination-grace-period-seconds = 30
+service-account-name="event-exporter-sa"
+termination-grace-period-seconds=30
 
 [[spec.template.spec.containers]]
-name = "event-exporter"
-image = "registry.k8s.io/event-exporter"
-command = [ "/event-exporter" ]
+name="event-exporter"
+image="registry.k8s.io/event-exporter"
+command=[ "/event-exporter" ]

@@ -1,41 +1,41 @@
-api-version = "v1"
-kind = "Pod"
+version="v1"
+kind="Pod"
 
 [metadata]
-name = "kubernetes-downwardapi-volume-example"
+name="kubernetes-downwardapi-volume-example"
 
 [metadata.labels]
-zone = "us-est-coast"
-cluster = "test-cluster1"
-rack = "rack-22"
+zone="us-est-coast"
+cluster="test-cluster1"
+rack="rack-22"
 
 [metadata.annotations]
-build = "two"
-builder = "john-doe"
+build="two"
+builder="john-doe"
 
 [[spec.containers]]
-name = "client-container"
-image = "registry.k8s.io/busybox"
-command = [ "sh", "-c" ]
-args = [
+name="client-container"
+image="registry.k8s.io/busybox"
+command=[ "sh", "-c" ]
+args=[
   "while true; do if [[ -e /etc/podinfo/labels ]]; then echo -en '\\n\\n'; cat /etc/podinfo/labels; fi; if [[ -e /etc/podinfo/annotations ]]; then echo -en '\\n\\n'; cat /etc/podinfo/annotations; fi; sleep 5; done;"
 ]
 
 [[spec.containers.volume-mounts]]
-name = "podinfo"
-mount-path = "/etc/podinfo"
+name="podinfo"
+mount-path="/etc/podinfo"
 
 [[spec.volumes]]
-name = "podinfo"
+name="podinfo"
 
 [[spec.volumes.downward-api.items]]
-path = "labels"
+path="labels"
 
 [spec.volumes.downward-api.items.field-ref]
-field-path = "metadata.labels"
+field-path="metadata.labels"
 
 [[spec.volumes.downward-api.items]]
-path = "annotations"
+path="annotations"
 
 [spec.volumes.downward-api.items.field-ref]
-field-path = "metadata.annotations"
+field-path="metadata.annotations"

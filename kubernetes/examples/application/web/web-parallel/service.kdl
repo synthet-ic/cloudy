@@ -1,18 +1,18 @@
-api-version = "v1"
-kind = "Service"
+version="v1"
+kind="Service"
 
 [metadata]
-name = "nginx"
+name="nginx"
 
 [metadata.labels]
-app = "nginx"
+app="nginx"
 
-[spec]
-cluster-ip = "None"
+spec {}
+cluster-ip="None"
 
 [[spec.ports]]
-port = 80
-name = "web"
+port=80
+name="web"
 
 [spec.selector]
-app = "nginx"
+app="nginx"

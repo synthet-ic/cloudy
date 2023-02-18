@@ -1,18 +1,18 @@
-api-version = "v1"
-kind = "Pod"
+version="v1"
+kind="Pod"
 
 [metadata]
-name = "nginx"
+name="nginx"
 
 [[spec.affinity.node-affinity.preferred-during-scheduling-ignored-during-execution]]
-weight = 1
+weight=1
 
 [[spec.affinity.node-affinity.preferred-during-scheduling-ignored-during-execution.preference.match-expressions]]
-key = "disctype"
-operator = "In"
-values = [ "ssd" ]
+key="disctype"
+operator="In"
+values=[ "ssd" ]
 
 [[spec.containers]]
-name = "nginx"
-image = "nginx"
-image-pull-policy = "IfNotPresent"
+name="nginx"
+image="nginx"
+image-pull-policy="IfNotPresent"

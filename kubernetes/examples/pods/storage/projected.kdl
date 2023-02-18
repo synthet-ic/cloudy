@@ -1,26 +1,26 @@
-api-version = "v1"
-kind = "Pod"
+version="v1"
+kind="Pod"
 
 [metadata]
-name = "test-projected-volume"
+name="test-projected-volume"
 
 [[spec.containers]]
-name = "test-projected-volume"
-image = "busybox"
-args = [ "sleep", "86400" ]
+name="test-projected-volume"
+image="busybox"
+args=[ "sleep", "86400" ]
 
 [[spec.containers.volume-mounts]]
-name = "all-in-one"
-mount-path = "/projected-volume"
-read-only = true
+name="all-in-one"
+mount-path="/projected-volume"
+read-only=true
 
 [[spec.volumes]]
-name = "all-in-one"
+name="all-in-one"
 
 [[spec.volumes.projected.sources]]
 [spec.volumes.projected.sources.secret]
-name = "user"
+name="user"
 
 [[spec.volumes.projected.sources]]
 [spec.volumes.projected.sources.secret]
-name = "pass"
+name="pass"

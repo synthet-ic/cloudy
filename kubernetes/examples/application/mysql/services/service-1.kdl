@@ -1,21 +1,21 @@
 # Headless service for stable DNS entries of StatefulSet members.
 
-api-version = "v1"
-kind = "Service"
+version="v1"
+kind="Service"
 
 [metadata]
-name = "mysql"
+name="mysql"
 
 [metadata.labels]
-app = "mysql"
-"app.kubernetes.io/name" = "mysql"
+app="mysql"
+"app.kubernetes.io/name"="mysql"
 
-[spec]
-cluster-ip = "None"
+spec {}
+cluster-ip="None"
 
 [[spec.ports]]
-name = "mysql"
-port = 3306
+name="mysql"
+port=3306
 
 [spec.selector]
-app = "mysql"
+app="mysql"

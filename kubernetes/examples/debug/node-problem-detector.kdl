@@ -1,50 +1,50 @@
-kind = "DaemonSet"
-api-version = "apps/v1"
+kind="DaemonSet"
+version="apps/v1"
 
 [metadata]
-name = "node-problem-detector-v0.1"
-namespace = "kube-system"
+name="node-problem-detector-v0.1"
+namespace="kube-system"
 
 [metadata.labels]
-k8s-app = "node-problem-detector"
-version = "v0.1"
-"kubernetes.io/cluster-service" = "true"
+k8s-app="node-problem-detector"
+version="v0.1"
+"kubernetes.io/cluster-service"="true"
 
 [spec.selector.match-labels]
-k8s-app = "node-problem-detector"
-version = "v0.1"
-"kubernetes.io/cluster-service" = "true"
+k8s-app="node-problem-detector"
+version="v0.1"
+"kubernetes.io/cluster-service"="true"
 
 [spec.template.metadata.labels]
-k8s-app = "node-problem-detector"
-version = "v0.1"
-"kubernetes.io/cluster-service" = "true"
+k8s-app="node-problem-detector"
+version="v0.1"
+"kubernetes.io/cluster-service"="true"
 
 [spec.template.spec]
-host-network = true
+host-network=true
 
 [[spec.template.spec.containers]]
-name = "node-problem-detector"
-image = "registry.k8s.io/node-problem-detector"
+name="node-problem-detector"
+image="registry.k8s.io/node-problem-detector"
 
 [spec.template.spec.containers.security-context]
-privileged = true
+privileged=true
 
 [spec.template.spec.containers.resources.limits]
-cpu = "200m"
-memory = "100Mi"
+cpu="200m"
+memory="100Mi"
 
 [spec.template.spec.containers.resources.requests]
-cpu = "20m"
-memory = "20Mi"
+cpu="20m"
+memory="20Mi"
 
 [[spec.template.spec.containers.volume-mounts]]
-name = "log"
-mount-path = "/log"
-read-only = true
+name="log"
+mount-path="/log"
+read-only=true
 
 [[spec.template.spec.volumes]]
-name = "log"
+name="log"
 
 [spec.template.spec.volumes.host-path]
-path = "/var/log/"
+path="/var/log/"

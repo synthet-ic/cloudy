@@ -1,52 +1,52 @@
-api-version = "v1"
-kind = "Pod"
+version="v1"
+kind="Pod"
 
 [metadata]
-name = "dapi-envars-resourcefieldref"
+name="dapi-envars-resourcefieldref"
 
-[spec]
-restart-policy = "Never"
+spec {}
+restart-policy="Never"
 
 [[spec.containers]]
-name = "test-container"
-image = "registry.k8s.io/busybox"
-command = [ "sh", "-c" ]
-args = [
+name="test-container"
+image="registry.k8s.io/busybox"
+command=[ "sh", "-c" ]
+args=[
   "while true; do echo -en '\\n'; printenv MY_CPU_REQUEST MY_CPU_LIMIT; printenv MY_MEM_REQUEST MY_MEM_LIMIT; sleep 10; done;"
 ]
 
 [spec.containers.resources.requests]
-memory = "32Mi"
-cpu = "125m"
+memory="32Mi"
+cpu="125m"
 
 [spec.containers.resources.limits]
-memory = "64Mi"
-cpu = "250m"
+memory="64Mi"
+cpu="250m"
 
 [[spec.containers.env]]
-name = "MY_CPU_REQUEST"
+name="MY_CPU_REQUEST"
 
 [spec.containers.env.value-from.resource-field-ref]
-container-name = "test-container"
-resource = "requests.cpu"
+container-name="test-container"
+resource="requests.cpu"
 
 [[spec.containers.env]]
-name = "MY_CPU_LIMIT"
+name="MY_CPU_LIMIT"
 
 [spec.containers.env.value-from.resource-field-ref]
-container-name = "test-container"
-resource = "limits.cpu"
+container-name="test-container"
+resource="limits.cpu"
 
 [[spec.containers.env]]
-name = "MY_MEM_REQUEST"
+name="MY_MEM_REQUEST"
 
 [spec.containers.env.value-from.resource-field-ref]
-container-name = "test-container"
-resource = "requests.memory"
+container-name="test-container"
+resource="requests.memory"
 
 [[spec.containers.env]]
-name = "MY_MEM_LIMIT"
+name="MY_MEM_LIMIT"
 
 [spec.containers.env.value-from.resource-field-ref]
-container-name = "test-container"
-resource = "limits.memory"
+container-name="test-container"
+resource="limits.memory"

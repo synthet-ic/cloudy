@@ -1,13 +1,13 @@
-api-version = "v1"
-kind = "Pod"
+version="v1"
+kind="Pod"
 
 [metadata]
-name = "nginx"
+name="nginx"
 
-[spec]
-node-name = "foo-node"
+spec {}
+node-name="foo-node"
 
 [[spec.containers]]
-name = "nginx"
-image = "nginx"
-image-pull-policy = "IfNotPresent"
+name="nginx"
+image="nginx"
+image-pull-policy="IfNotPresent"

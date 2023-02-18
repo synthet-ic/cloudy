@@ -1,16 +1,16 @@
-api-version = "rbac.authorization.k8s.io/v1"
-kind = "RoleBinding"
+version="rbac.authorization.k8s.io/v1"
+kind="RoleBinding"
 
 [metadata]
-name = "topo-aware-scheduler-as-kube-scheduler"
-namespace = "kube-system"
+name="topo-aware-scheduler-as-kube-scheduler"
+namespace="kube-system"
 
 [[subjects]]
-kind = "ServiceAccount"
-name = "topo-aware-scheduler"
-namespace = "kube-system"
+kind="ServiceAccount"
+name="topo-aware-scheduler"
+namespace="kube-system"
 
 [roleRef]
-kind = "Role"
-name = "extension-apiserver-authentication-reader"
-apiGroup = "rbac.authorization.k8s.io"
+kind="Role"
+name="extension-apiserver-authentication-reader"
+apiGroup="rbac.authorization.k8s.io"

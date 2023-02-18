@@ -1,31 +1,31 @@
-api-version = "kubescheduler.config.k8s.io/v1beta2"
-kind = "KubeSchedulerConfiguration"
+version="kubescheduler.config.k8s.io/v1beta2"
+kind="KubeSchedulerConfiguration"
 
 [leaderElection]
-leader-elect = false
+leader-elect=false
 
 [clientConnection]
-kubeconfig = "REPLACE_ME_WITH_KUBE_CONFIG_PATH"
+kubeconfig="REPLACE_ME_WITH_KUBE_CONFIG_PATH"
 
 [[profiles]]
-scheduler-name = "trimaran"
+scheduler-name="trimaran"
 
 [[profiles.plugins.score.disabled]]
-name = "NodeResourcesBalancedAllocation"
+name="NodeResourcesBalancedAllocation"
 
 [[profiles.plugins.score.disabled]]
-name = "NodeResourcesLeastAllocated"
+name="NodeResourcesLeastAllocated"
 
 [[profiles.plugins.score.enabled]]
-name = "TargetLoadPacking"
+name="TargetLoadPacking"
 
 [[profiles.plugin-config]]
-name = "TargetLoadPacking"
+name="TargetLoadPacking"
 
 [profiles.plugin-config.args]
-default-requests-multiplier = "1"
-target-utilisation = 40
+default-requests-multiplier="1"
+target-utilisation=40
 
 [profiles.plugin-config.args.metric-provider]
-type = "Prometheus"
-address = "http://replace_me_with_prometheus_server:9090"
+type="Prometheus"
+address="http://replace_me_with_prometheus_server:9090"

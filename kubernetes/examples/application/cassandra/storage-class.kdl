@@ -1,9 +1,9 @@
-api-version = "storage.k8s.io/v1"
-kind = "StorageClass"
-provisioner = "k8s.io/minikube-hostpath"
+version="storage.k8s.io/v1"
+kind="StorageClass"
+provisioner="k8s.io/minikube-hostpath"
 
 [metadata]
-name = "fast"
+name="fast"
 
 [parameters]
-type = "pd-ssd"
+type="pd-ssd"

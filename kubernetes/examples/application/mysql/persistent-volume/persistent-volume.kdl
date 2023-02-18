@@ -1,18 +1,18 @@
-api-version = "v1"
-kind = "PersistentVolume"
+version="v1"
+kind="PersistentVolume"
 
 [metadata]
-name = "mysql-pv-volume"
+name="mysql-pv-volume"
 
 [metadata.labels]
-type = "local"
+type="local"
 
-[spec]
-storage-class-name = "manual"
-access-modes = [ "ReadWriteOnce" ]
+spec {}
+storage-class-name="manual"
+access-modes=[ "read-write-once" ]
 
 [spec.capacity]
-storage = "20Gi"
+storage="20Gi"
 
 [spec.host-path]
-path = "/mnt/data"
+path="/mnt/data"

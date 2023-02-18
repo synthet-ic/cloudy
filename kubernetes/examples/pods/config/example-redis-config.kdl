@@ -1,11 +1,11 @@
-kind = "ConfigMap"
-api-version = "v1"
+kind="ConfigMap"
+version="v1"
 
 [metadata]
-name = "example-redis-config"
+name="example-redis-config"
 
 [data]
-redis-config = """
+redis-config="""
 maxmemory 2mb
 maxmemory-policy allkeys-lru
 """

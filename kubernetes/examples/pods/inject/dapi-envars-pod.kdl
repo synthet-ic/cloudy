@@ -1,46 +1,46 @@
-api-version = "v1"
-kind = "Pod"
+version="v1"
+kind="Pod"
 
 [metadata]
-name = "dapi-envars-fieldref"
+name="dapi-envars-fieldref"
 
-[spec]
-restart-policy = "Never"
+spec {}
+restart-policy="Never"
 
 [[spec.containers]]
-name = "test-container"
-image = "registry.k8s.io/busybox"
-command = [ "sh", "-c" ]
-args = [
+name="test-container"
+image="registry.k8s.io/busybox"
+command=[ "sh", "-c" ]
+args=[
   "while true; do echo -en '\\n'; printenv MY_NODE_NAME MY_POD_NAME MY_POD_NAMESPACE; printenv MY_POD_IP MY_POD_SERVICE_ACCOUNT; sleep 10; done;"
 ]
 
 [[spec.containers.env]]
-name = "MY_NODE_NAME"
+name="MY_NODE_NAME"
 
 [spec.containers.env.value-from.field-ref]
-field-path = "spec.node-name"
+field-path="spec.node-name"
 
 [[spec.containers.env]]
-name = "MY_POD_NAME"
+name="MY_POD_NAME"
 
 [spec.containers.env.value-from.field-ref]
-field-path = "metadata.name"
+field-path="metadata.name"
 
 [[spec.containers.env]]
-name = "MY_POD_NAMESPACE"
+name="MY_POD_NAMESPACE"
 
 [spec.containers.env.value-from.field-ref]
-field-path = "metadata.namespace"
+field-path="metadata.namespace"
 
 [[spec.containers.env]]
-name = "MY_POD_IP"
+name="MY_POD_IP"
 
 [spec.containers.env.value-from.field-ref]
-field-path = "status.pod-ip"
+field-path="status.pod-ip"
 
 [[spec.containers.env]]
-name = "MY_POD_SERVICE_ACCOUNT"
+name="MY_POD_SERVICE_ACCOUNT"
 
 [spec.containers.env.value-from.field-ref]
-field-path = "spec.service-account-name"
+field-path="spec.service-account-name"

@@ -1,17 +1,17 @@
-api-version = "v1"
-kind = "Service"
+version="v1"
+kind="Service"
 
 [metadata]
-name = "cassandra"
+name="cassandra"
 
 [metadata.labels]
-app = "cassandra"
+app="cassandra"
 
-[spec]
-cluster-ip = "None"
+spec {}
+cluster-ip="None"
 
 [[spec.ports]]
-port = 9042
+port=9042
 
 [spec.selector]
-app = "cassandra"
+app="cassandra"

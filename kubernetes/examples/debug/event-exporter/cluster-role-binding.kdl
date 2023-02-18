@@ -1,18 +1,18 @@
-api-version = "rbac.authorization.k8s.io/v1"
-kind = "ClusterRoleBinding"
+version="rbac.authorization.k8s.io/v1"
+kind="ClusterRoleBinding"
 
 [metadata]
-name = "event-exporter-role-binding"
+name="event-exporter-role-binding"
 
 [metadata.labels]
-app = "event-exporter"
+app="event-exporter"
 
 [role-ref]
-api-group = "rbac.authorization.k8s.io"
-kind = "ClusterRole"
-name = "view"
+api-group="rbac.authorization.k8s.io"
+kind="ClusterRole"
+name="view"
 
 [[subjects]]
-kind = "ServiceAccount"
-name = "event-exporter-service-account"
-namespace = "default"
+kind="ServiceAccount"
+name="event-exporter-service-account"
+namespace="default"

@@ -1,23 +1,23 @@
-api-version = "kubescheduler.config.k8s.io/v1beta2"
-kind = "KubeSchedulerConfiguration"
+version="kubescheduler.config.k8s.io/v1beta2"
+kind="KubeSchedulerConfiguration"
 
 [leaderElection]
-leaderElect = false
+leaderElect=false
 
 [clientConnection]
-kubeconfig = "/etc/kubernetes/scheduler.conf"
+kubeconfig="/etc/kubernetes/scheduler.conf"
 
 [[profiles]]
-schedulerName = "topo-aware-scheduler"
+schedulerName="topo-aware-scheduler"
 
 [[profiles.plugins.filter.enabled]]
-name = "NodeResourceTopologyMatch"
+name="NodeResourceTopologyMatch"
 
 [[profiles.plugins.score.enabled]]
-name = "NodeResourceTopologyMatch"
+name="NodeResourceTopologyMatch"
 
 [[profiles.pluginConfig]]
-name = "NodeResourceTopologyMatch"
+name="NodeResourceTopologyMatch"
 
 [profiles.pluginConfig.args.scoringStrategy]
-type = "LeastAllocated"
+type="LeastAllocated"

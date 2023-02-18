@@ -1,17 +1,17 @@
-api-version = "v1"
-kind = "Pod"
+version="v1"
+kind="Pod"
 
 [metadata]
-name = "redis"
+name="redis"
 
 [[spec.containers]]
-name = "redis"
-image = "redis"
+name="redis"
+image="redis"
 
 [[spec.containers.volume-mounts]]
-name = "redis-storage"
-mount-path = "/data/redis"
+name="redis-storage"
+mount-path="/data/redis"
 
 [[spec.volumes]]
-name = "redis-storage"
-empty-dir = { }
+name="redis-storage"
+empty-dir={ }

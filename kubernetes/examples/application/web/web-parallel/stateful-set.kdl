@@ -1,38 +1,38 @@
-api-version = "apps/v1"
-kind = "StatefulSet"
+version="apps/v1"
+kind="StatefulSet"
 
 [metadata]
-name = "web"
+name="web"
 
-[spec]
-service-name = "nginx"
-pod-management-policy = "Parallel"
-replicas = 2
+spec {}
+service-name="nginx"
+pod-management-policy="Parallel"
+replicas=2
 
 [spec.selector.match-labels]
-app = "nginx"
+app="nginx"
 
 [spec.template.metadata.labels]
-app = "nginx"
+app="nginx"
 
 [[spec.template.spec.containers]]
-name = "nginx"
-image = "registry.k8s.io/nginx-slim"
+name="nginx"
+image="registry.k8s.io/nginx-slim"
 
 [[spec.template.spec.containers.ports]]
-container-port = 80
-name = "web"
+container-port=80
+name="web"
 
 [[spec.template.spec.containers.volume-mounts]]
-name = "www"
-mount-path = "/usr/share/nginx/html"
+name="www"
+mount-path="/usr/share/nginx/html"
 
 [[spec.volume-claim-templates]]
 [spec.volume-claim-templates.metadata]
-name = "www"
+name="www"
 
 [spec.volume-claim-templates.spec]
-access-modes = [ "ReadWriteOnce" ]
+access-modes=[ "read-write-once" ]
 
 [spec.volume-claim-templates.spec.resources.requests]
-storage = "1Gi"
+storage="1Gi"

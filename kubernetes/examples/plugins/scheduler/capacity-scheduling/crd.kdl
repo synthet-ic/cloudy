@@ -1,98 +1,98 @@
-api-version = "apiextensions.k8s.io/v1"
-kind = "CustomResourceDefinition"
+version="apiextensions.k8s.io/v1"
+kind="CustomResourceDefinition"
 
 [metadata]
-name = "elasticquotas.scheduling.sigs.k8s.io"
+name="elasticquotas.scheduling.sigs.k8s.io"
 
 [metadata.annotations]
-"api-approved.kubernetes.io" = "https://github.com/kubernetes-sigs/scheduler-plugins/pull/52"
-"controller-gen.kubebuilder.io/version" = "v0.6.2"
+"api-approved.kubernetes.io"="https://github.com/kubernetes-sigs/scheduler-plugins/pull/52"
+"controller-gen.kubebuilder.io/version"="v0.6.2"
 
-[spec]
-group = "scheduling.sigs.k8s.io"
-scope = "Namespaced"
+spec {}
+group="scheduling.sigs.k8s.io"
+scope="Namespaced"
 
 [spec.names]
-kind = "ElasticQuota"
-listKind = "ElasticQuotaList"
-plural = "elasticquotas"
-shortNames = [ "eq", "eqs" ]
-singular = "elasticquota"
+kind="ElasticQuota"
+listKind="ElasticQuotaList"
+plural="elasticquotas"
+shortNames=[ "eq", "eqs" ]
+singular="elasticquota"
 
 [[spec.versions]]
-name = "v1alpha1"
-served = true
-storage = true
+name="v1alpha1"
+served=true
+storage=true
 
 [spec.versions.schema.openAPIV3Schema]
-description = "ElasticQuota sets elastic quota restrictions per namespace"
-type = "object"
+description="ElasticQuota sets elastic quota restrictions per namespace"
+type="object"
 
 [spec.versions.schema.openAPIV3Schema.properties.api-version]
-description = "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources"
-type = "string"
+description="APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources"
+type="string"
 
 [spec.versions.schema.openAPIV3Schema.properties.kind]
-description = "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds"
-type = "string"
+description="Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds"
+type="string"
 
 [spec.versions.schema.openAPIV3Schema.properties.metadata]
-type = "object"
+type="object"
 
 [spec.versions.schema.openAPIV3Schema.properties.spec]
-description = "ElasticQuotaSpec defines the Min and Max for Quota."
-type = "object"
+description="ElasticQuotaSpec defines the Min and Max for Quota."
+type="object"
 
 [spec.versions.schema.openAPIV3Schema.properties.spec.properties.max]
-description = "Max is the set of desired max limits for each named resource. The usage of max is based on the resource configurations of successfully scheduled pods."
-type = "object"
+description="Max is the set of desired max limits for each named resource. The usage of max is based on the resource configurations of successfully scheduled pods."
+type="object"
 
 [spec.versions.schema.openAPIV3Schema.properties.spec.properties.max.additionalProperties]
-pattern = "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$"
-x-kubernetes-int-or-string = true
+pattern="^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$"
+x-kubernetes-int-or-string=true
 
 [[spec.versions.schema.openAPIV3Schema.properties.spec.properties.max.additionalProperties.anyOf]]
-type = "integer"
+type="integer"
 
 [[spec.versions.schema.openAPIV3Schema.properties.spec.properties.max.additionalProperties.anyOf]]
-type = "string"
+type="string"
 
 [spec.versions.schema.openAPIV3Schema.properties.spec.properties.min]
-description = "Min is the set of desired guaranteed limits for each named resource."
-type = "object"
+description="Min is the set of desired guaranteed limits for each named resource."
+type="object"
 
 [spec.versions.schema.openAPIV3Schema.properties.spec.properties.min.additionalProperties]
-pattern = "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$"
-x-kubernetes-int-or-string = true
+pattern="^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$"
+x-kubernetes-int-or-string=true
 
 [[spec.versions.schema.openAPIV3Schema.properties.spec.properties.min.additionalProperties.anyOf]]
-type = "integer"
+type="integer"
 
 [[spec.versions.schema.openAPIV3Schema.properties.spec.properties.min.additionalProperties.anyOf]]
-type = "string"
+type="string"
 
 [spec.versions.schema.openAPIV3Schema.properties.status]
-description = "ElasticQuotaStatus defines the observed use."
-type = "object"
+description="ElasticQuotaStatus defines the observed use."
+type="object"
 
 [spec.versions.schema.openAPIV3Schema.properties.status.properties.used]
-description = "Used is the current observed total usage of the resource in the namespace."
-type = "object"
+description="Used is the current observed total usage of the resource in the namespace."
+type="object"
 
 [spec.versions.schema.openAPIV3Schema.properties.status.properties.used.additionalProperties]
-pattern = "^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$"
-x-kubernetes-int-or-string = true
+pattern="^(\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\\+|-)?(([0-9]+(\\.[0-9]*)?)|(\\.[0-9]+))))?$"
+x-kubernetes-int-or-string=true
 
 [[spec.versions.schema.openAPIV3Schema.properties.status.properties.used.additionalProperties.anyOf]]
-type = "integer"
+type="integer"
 
 [[spec.versions.schema.openAPIV3Schema.properties.status.properties.used.additionalProperties.anyOf]]
-type = "string"
+type="string"
 
 [status]
-conditions = [ ]
-storedVersions = [ ]
+conditions=[ ]
+storedVersions=[ ]
 
 [status.acceptedNames]
-kind = ""
-plural = ""
+kind=""
+plural=""

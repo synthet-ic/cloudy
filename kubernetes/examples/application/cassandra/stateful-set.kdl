@@ -1,108 +1,108 @@
-api-version = "apps/v1"
-kind = "StatefulSet"
+version="apps/v1"
+kind="StatefulSet"
 
 [metadata]
-name = "cassandra"
+name="cassandra"
 
 [metadata.labels]
-app = "cassandra"
+app="cassandra"
 
-[spec]
-service-name = "cassandra"
-replicas = 3
+spec {}
+service-name="cassandra"
+replicas=3
 
 [spec.selector.match-labels]
-app = "cassandra"
+app="cassandra"
 
 [spec.template.metadata.labels]
-app = "cassandra"
+app="cassandra"
 
 [spec.template.spec]
-termination-grace-period-seconds = 1800
+termination-grace-period-seconds=1800
 
 [[spec.template.spec.containers]]
-name = "cassandra"
-image = "gcr.io/google-samples/cassandra"
-image-pull-policy = "Always"
+name="cassandra"
+image="gcr.io/google-samples/cassandra"
+image-pull-policy="Always"
 
 [[spec.template.spec.containers.ports]]
-container-port = 7000
-name = "intra-node"
+container-port=7000
+name="intra-node"
 
 [[spec.template.spec.containers.ports]]
-container-port = 7001
-name = "tls-intra-node"
+container-port=7001
+name="tls-intra-node"
 
 [[spec.template.spec.containers.ports]]
-container-port = 7199
-name = "jmx"
+container-port=7199
+name="jmx"
 
 [[spec.template.spec.containers.ports]]
-container-port = 9042
-name = "cql"
+container-port=9042
+name="cql"
 
 [spec.template.spec.containers.resources.limits]
-cpu = "500m"
-memory = "1Gi"
+cpu="500m"
+memory="1Gi"
 
 [spec.template.spec.containers.resources.requests]
-cpu = "500m"
-memory = "1Gi"
+cpu="500m"
+memory="1Gi"
 
 [spec.template.spec.containers.security-context.capabilities]
-add = [ "IPC_LOCK" ]
+add=[ "IPC_LOCK" ]
 
 [spec.template.spec.containers.lifecycle.pre-stop.exec]
-command = [ "/bin/sh", "-c", "nodetool drain" ]
+command=[ "/bin/sh", "-c", "nodetool drain" ]
 
 [[spec.template.spec.containers.env]]
-name = "MAX_HEAP_SIZE"
-value = "512M"
+name="MAX_HEAP_SIZE"
+value="512M"
 
 [[spec.template.spec.containers.env]]
-name = "HEAP_NEWSIZE"
-value = "100M"
+name="HEAP_NEWSIZE"
+value="100M"
 
 [[spec.template.spec.containers.env]]
-name = "CASSANDRA_SEEDS"
-value = "cassandra-0.cassandra.default.svc.cluster.local"
+name="CASSANDRA_SEEDS"
+value="cassandra-0.cassandra.default.svc.cluster.local"
 
 [[spec.template.spec.containers.env]]
-name = "CASSANDRA_CLUSTER_NAME"
-value = "K8Demo"
+name="CASSANDRA_CLUSTER_NAME"
+value="K8Demo"
 
 [[spec.template.spec.containers.env]]
-name = "CASSANDRA_DC"
-value = "DC1-K8Demo"
+name="CASSANDRA_DC"
+value="DC1-K8Demo"
 
 [[spec.template.spec.containers.env]]
-name = "CASSANDRA_RACK"
-value = "Rack1-K8Demo"
+name="CASSANDRA_RACK"
+value="Rack1-K8Demo"
 
 [[spec.template.spec.containers.env]]
-name = "POD_IP"
+name="POD_IP"
 
 [spec.template.spec.containers.env.value-from.field-ref]
-field-path = "status.podIP"
+field-path="status.podIP"
 
 [spec.template.spec.containers.readiness-probe]
-initial-delay-seconds = 15
-timeout-seconds = 5
+initial-delay-seconds=15
+timeout-seconds=5
 
 [spec.template.spec.containers.readiness-probe.exec]
-command = [ "/bin/bash", "-c", "/ready-probe.sh" ]
+command=[ "/bin/bash", "-c", "/ready-probe.sh" ]
 
 [[spec.template.spec.containers.volume-mounts]]
-name = "cassandra-data"
-mount-path = "/cassandra_data"
+name="cassandra-data"
+mount-path="/cassandra_data"
 
 [[spec.volume-claim-templates]]
 [spec.volume-claim-templates.metadata]
-name = "cassandra-data"
+name="cassandra-data"
 
 [spec.volume-claim-templates.spec]
-access-modes = [ "ReadWriteOnce" ]
-storage-class-name = "fast"
+access-modes=[ "read-write-once" ]
+storage-class-name="fast"
 
 [spec.volume-claim-templates.spec.resources.requests]
-storage = "1Gi"
+storage="1Gi"

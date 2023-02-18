@@ -1,44 +1,44 @@
-api-version = "topology.node.k8s.io/v1alpha1"
-kind = "NodeResourceTopology"
-topology-policies = [ "SingleNUMANodeContainerLevel" ]
+version="topology.node.k8s.io/v1alpha1"
+kind="NodeResourceTopology"
+topology-policies=[ "SingleNUMANodeContainerLevel" ]
 
 [metadata]
-name = "worker-node-1"
+name="worker-node-1"
 
 [[zones]]
-name = "node-0"
-type = "Node"
+name="node-0"
+type="Node"
 
 [[zones.resources]]
-name = "cpu"
-capacity = 4
-allocatable = 3
+name="cpu"
+capacity=4
+allocatable=3
 
 [[zones.resources]]
-name = "example.com/deviceA"
-capacity = 1
-allocatable = 1
+name="example.com/deviceA"
+capacity=1
+allocatable=1
 
 [[zones.resources]]
-name = "example.com/deviceB"
-capacity = 2
-allocatable = 2
+name="example.com/deviceB"
+capacity=2
+allocatable=2
 
 [[zones]]
-name = "node-1"
-type = "Node"
+name="node-1"
+type="Node"
 
 [[zones.resources]]
-name = "cpu"
-capacity = 4
-allocatable = 3
+name="cpu"
+capacity=4
+allocatable=3
 
 [[zones.resources]]
-name = "example.com/deviceA"
-capacity = 2
-allocatable = 2
+name="example.com/deviceA"
+capacity=2
+allocatable=2
 
 [[zones.resources]]
-name = "example.com/deviceB"
-capacity = 1
-allocatable = 1
+name="example.com/deviceB"
+capacity=1
+allocatable=1

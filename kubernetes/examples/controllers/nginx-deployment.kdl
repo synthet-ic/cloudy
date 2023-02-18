@@ -1,24 +1,24 @@
-kind = "Deployment"
-api-version = "apps/v1"
+kind="Deployment"
+version="apps/v1"
 
 [metadata]
-name = "nginx-deployment"
+name="nginx-deployment"
 
 [metadata.labels]
-app = "nginx"
+app="nginx"
 
-[spec]
-replicas = 3
+spec {}
+replicas=3
 
 [spec.selector.match-labels]
-app = "nginx"
+app="nginx"
 
 [spec.template.metadata.labels]
-app = "nginx"
+app="nginx"
 
 [[spec.template.spec.containers]]
-name = "nginx"
-image = "nginx"
+name="nginx"
+image="nginx"
 
 [[spec.template.spec.containers.ports]]
-container-port = 80
+container-port=80

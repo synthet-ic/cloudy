@@ -1,12 +1,12 @@
-api-version = "v1"
-kind = "ConfigMap"
+version="v1"
+kind="ConfigMap"
 
 [metadata]
-name = "topo-aware-scheduler-config"
-namespace = "kube-system"
+name="topo-aware-scheduler-config"
+namespace="kube-system"
 
 [data]
-"scheduler-config.yaml" = """
+"scheduler-config.yaml"="""
 api-version: kubescheduler.config.k8s.io/v1beta2
 kind: KubeSchedulerConfiguration
 leaderElection:

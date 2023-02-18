@@ -1,14 +1,14 @@
-api-version = "kubescheduler.config.k8s.io/v1beta2"
-kind = "KubeSchedulerConfiguration"
+version="kubescheduler.config.k8s.io/v1beta2"
+kind="KubeSchedulerConfiguration"
 
 [leaderElection]
-leaderElect = false
+leaderElect=false
 
 [clientConnection]
-kubeconfig = "REPLACE_ME_WITH_KUBE_CONFIG_PATH"
+kubeconfig="REPLACE_ME_WITH_KUBE_CONFIG_PATH"
 
 [[profiles]]
-schedulerName = "default-scheduler"
+schedulerName="default-scheduler"
 
 [[profiles.plugins.score.enabled]]
-name = "PodState"
+name="PodState"

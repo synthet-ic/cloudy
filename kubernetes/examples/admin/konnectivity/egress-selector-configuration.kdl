@@ -1,11 +1,9 @@
-kind = "EgressSelectorConfiguration"
-api-version = "apiserver.k8s.io/v1beta1"
-
-[[egress-selections]]
-name = "cluster"
-
-[egress-selections.connection]
-proxy-protocol = "GRPC"
-
-[egress-selections.connection.transport.uds]
-uds-name = "/etc/kubernetes/konnectivity-server/konnectivity-server.socket"
+egress-selector "cluster" version="apiserver.k8s.io/v1beta1" {
+  egress-selections {
+    connection proxy-protocol="grpc" {
+      transport {
+        uds "/etc/kubernetes/konnectivity-server/konnectivity-server.socket"
+      }
+    }
+  }
+}

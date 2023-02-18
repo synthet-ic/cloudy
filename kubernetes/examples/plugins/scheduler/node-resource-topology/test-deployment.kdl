@@ -1,33 +1,33 @@
-api-version = "apps/v1"
-kind = "Deployment"
+version="apps/v1"
+kind="Deployment"
 
 [metadata]
-name = "test-deployment"
+name="test-deployment"
 
 [spec.selector.match-labels]
-name = "test"
+name="test"
 
 [spec.template.metadata.labels]
-name = "test"
+name="test"
 
 [spec.template.spec]
-schedulerName = "topo-aware-scheduler"
+schedulerName="topo-aware-scheduler"
 
 [[spec.template.spec.containers]]
-name = "test-deployment-1-container-1"
-image = "quay.io/fromani/numalign"
-imagePullPolicy = "IfNotPresent"
-command = [ "/bin/sh", "-c" ]
-args = [ "while true; do numalign; sleep 100000; done;" ]
+name="test-deployment-1-container-1"
+image="quay.io/fromani/numalign"
+imagePullPolicy="IfNotPresent"
+command=[ "/bin/sh", "-c" ]
+args=[ "while true; do numalign; sleep 100000; done;" ]
 
 [spec.template.spec.containers.resources.limits]
-cpu = 1
-memory = "100Mi"
-"example.com/deviceA" = 1
-"example.com/deviceB" = 1
+cpu=1
+memory="100Mi"
+"example.com/deviceA"=1
+"example.com/deviceB"=1
 
 [spec.template.spec.containers.resources.requests]
-cpu = 1
-memory = "100Mi"
-"example.com/deviceA" = 1
-"example.com/deviceB" = 1
+cpu=1
+memory="100Mi"
+"example.com/deviceA"=1
+"example.com/deviceB"=1
