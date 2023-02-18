@@ -1,4 +1,4 @@
 # kfl-envoy
 
-- Homepage https://www.envoyproxy.io/
-- Repository https://github.com/envoyproxy/envoy
+- https://www.envoyproxy.io/
+- https://github.com/envoyproxy/envoy
