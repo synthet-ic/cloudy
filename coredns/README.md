@@ -1,4 +1,4 @@
-# CoreDNS
+# kfl-coredns
 
-- Homepage https://coredns.io/
-- Repository https://github.com/coredns/coredns
+- https://coredns.io/
+- https://github.com/coredns/coredns
