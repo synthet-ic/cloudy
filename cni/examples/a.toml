@@ -1,0 +1,35 @@
+cni-version = "1.0.0"
+name = "dbnet"
+
+[[plugins]]
+type = "bridge"
+# Plugin specific parameters.
+bridge = "cni0"
+key-A = [ "some more", "plugin specific", "configuration" ]
+
+[plugins.ipam]
+type = "host-local"
+subnet = "10.1.0.0/16"
+# ipam specific.
+gateway = "10.1.0.1"
+
+[[plugins.ipam.routes]]
+dst = "0.0.0.0/0"
+
+[plugins.dns]
+name-servers = [ "10.1.0.1" ]
+
+[[plugins]]
+type = "tuning"
+
+[plugins.capabilities]
+mac = true
+
+[plugins.sysctl]
+"net.core.somaxconn" = "500"
+
+[[plugins]]
+type = "portmap"
+
+[plugins.capabilities]
+port-mappings = true

@@ -1,0 +1,37 @@
+cni-version = "1.0.0"
+name = "dbnet"
+type = "bridge"
+bridge = "cni0"
+keyA = [ "some more", "plugin specific", "configuration" ]
+
+[ipam]
+type = "host-local"
+subnet = "10.1.0.0/16"
+gateway = "10.1.0.1"
+
+[dns]
+name-servers = [ "10.1.0.1" ]
+
+[[prev-result.ips]]
+address = "10.1.0.5/16"
+gateway = "10.1.0.1"
+interface = 2
+
+[[prev-result.routes]]
+dst = "0.0.0.0/0"
+
+[[prev-result.interfaces]]
+name = "cni0"
+mac = "00:11:22:33:44:55"
+
+[[prev-result.interfaces]]
+name = "veth3243"
+mac = "55:44:33:22:11:11"
+
+[[prev-result.interfaces]]
+name = "eth0"
+mac = "00:11:22:33:44:66"
+sandbox = "/var/run/netns/blue"
+
+[prev-result.dns]
+name-servers = [ "10.1.0.1" ]
