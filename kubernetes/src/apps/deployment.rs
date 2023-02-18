@@ -12,11 +12,7 @@ use kfl::Decode;
 
 use crate::{
     core::pod_template::PodTemplateSpec,
-    meta::{
-        condition::Condition,
-        label_selector::Selector,
-        metadata::Metadata
-    },
+    meta::{Condition, Selector, Metadata},
     IntOrString
 };
 

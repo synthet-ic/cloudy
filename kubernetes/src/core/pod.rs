@@ -171,7 +171,7 @@ pub struct Spec {
 #[derive(Debug, Decode)]
 pub struct Container {
     /// Name of the container specified as a DNS_LABEL. Each container in a pod must have a unique name (DNS_LABEL). Cannot be updated.
-    #[kfl(property)]
+    #[kfl(argument)]
     name: String,
 
     // Image
@@ -187,7 +187,7 @@ pub struct Container {
     /// Image pull policy. One of `Always`, `Never`, `IfNotPresent`. Defaults to `Always` if `:latest` tag is specified, or `IfNotPresent` otherwise. Cannot be updated.
     ///
     /// More info: <https://kubernetes.io/docs/concepts/containers/images/#updating-images>
-    #[kfl(default = ImagePullPolicy::Always)]
+    #[kfl(property, default = ImagePullPolicy::Always)]
     image_pull_policy: ImagePullPolicy,
 
     // Entrypoint
@@ -361,8 +361,10 @@ pub struct SecretEnvSource {
 
 #[derive(Debug, Decode)]
 pub struct VolumeMount {
-    mount_path: PathBuf,
+    #[kfl(argument)]
     name: String,
+    #[kfl(property)]
+    path: PathBuf,
     mount_propagation: Option<MountPropagation>,
     read_only: Option<bool>,
     sub_path: Option<String>,

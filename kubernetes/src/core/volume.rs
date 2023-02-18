@@ -18,6 +18,7 @@ pub struct Volume {
     /// Name of the volume. Must be a `DNS_LABEL` and unique within the pod.
     ///
     /// More info: <https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names>
+    #[kfl(argument)]
     name: String,
 
     // Exposed Persistent Volumes
@@ -66,6 +67,7 @@ pub struct PersistentVolumeClaim {
 
 #[derive(Debug, Decode)]
 pub struct ConfigMap {
+    #[kfl(argument)]
     name: Option<String>,
     /// Specifies whether the ConfigMap or its keys must be defined.
     optional: Option<bool>,
