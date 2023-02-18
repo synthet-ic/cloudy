@@ -1,0 +1,13 @@
+CiliumNetworkPolicy "icmp-rule" version="cilium.io/v2" {
+}
+
+[spec.endpoint-selector.match-labels]
+app = "my-service"
+
+[[spec.egress]]
+[[spec.egress.icmps]]
+[[spec.egress.icmps.fields]]
+type=8 family="ipv4"
+
+[[spec.egress.icmps.fields]]
+type=128 family="ipv6"
