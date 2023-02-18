@@ -1,26 +1,22 @@
-api-version = "v1"
-kind = "Pod"
-
-[metadata]
-name = "mypod"
-
-[metadata.labels]
-foo = "bar"
-
-[[spec.topology-spread-constraints]]
-max-skew = 1
-topology-key = "zone"
-when-unsatisfiable = "DoNotSchedule"
-
-[spec.topology-spread-constraints.label-selector.match-labels]
-foo = "bar"
-
-[[spec.affinity.node-affinity.required-during-scheduling-ignored-during-execution.node-selector-terms]]
-[[spec.affinity.node-affinity.required-during-scheduling-ignored-during-execution.node-selector-terms.match-expressions]]
-key = "zone"
-operator = "NotIn"
-values = [ "zoneC" ]
-
-[[spec.containers]]
-name = "pause"
-image = "registry.k8s.io/pause"
+pod "my-pod" version="v1" {
+  label key="foo" value="bar"
+  spec {
+    topology-spread-constraints max-skew=1 topology-key="zone" when-unsatisfiable="do-not-schedule" {
+      label-selector {
+        match-labels key="foo" value="bar"
+      }
+    }
+    affinity {
+      node-affinity {
+        required-during-scheduling-ignored-during-execution {
+          node-selector-term {
+            match-expressions key="zone" operator="not-in" {
+              values "zoneC"
+            }
+          }
+        }
+      }
+    }
+    container "pause" image="registry.k8s.io/pause"
+  }
+}
