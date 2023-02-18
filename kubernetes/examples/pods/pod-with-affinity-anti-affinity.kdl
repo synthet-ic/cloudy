@@ -1,0 +1,31 @@
+api-version = "v1"
+kind = "Pod"
+
+[metadata]
+name = "with-affinity-anti-affinity"
+
+[[spec.affinity.node-affinity.required-during-scheduling-ignored-during-execution.node-selector-terms]]
+[[spec.affinity.node-affinity.required-during-scheduling-ignored-during-execution.node-selector-terms.match-expressions]]
+key = "kubernetes.io/os"
+operator = "In"
+values = [ "linux" ]
+
+[[spec.affinity.node-affinity.preferred-during-scheduling-ignored-during-execution]]
+weight = 1
+
+[[spec.affinity.node-affinity.preferred-during-scheduling-ignored-during-execution.preference.match-expressions]]
+key = "label-1"
+operator = "In"
+values = [ "key-1" ]
+
+[[spec.affinity.node-affinity.preferred-during-scheduling-ignored-during-execution]]
+weight = 50
+
+[[spec.affinity.node-affinity.preferred-during-scheduling-ignored-during-execution.preference.match-expressions]]
+key = "label-2"
+operator = "In"
+values = [ "key-2" ]
+
+[[spec.containers]]
+name = "with-node-affinity"
+image = "registry.k8s.io/pause"

@@ -1,0 +1,25 @@
+api-version = "v1"
+kind = "Pod"
+
+[metadata]
+name = "test"
+
+[[spec.containers]]
+name = "test"
+image = "nginx"
+
+[[spec.containers.volume-mounts]]
+name = "config"
+mount-path = "/usr/share/nginx/html"
+sub-path = "html"
+
+[[spec.containers.volume-mounts]]
+name = "config"
+mount-path = "/etc/nginx/nginx.conf"
+sub-path = "nginx.conf"
+
+[[spec.volumes]]
+name = "config"
+
+[spec.volumes.persistent-volume-claim]
+claim-name = "test-nfs-claim"

@@ -1,0 +1,17 @@
+api-version = "v1"
+kind = "Pod"
+
+[metadata]
+name = "cpu-demo-2"
+namespace = "cpu-example"
+
+[[spec.containers]]
+name = "cpu-demo-ctr-2"
+image = "vish/stress"
+args = [ "-cpus", "2" ]
+
+[spec.containers.resources.limits]
+cpu = "100"
+
+[spec.containers.resources.requests]
+cpu = "100"

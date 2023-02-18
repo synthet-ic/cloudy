@@ -1,0 +1,27 @@
+api-version = "v1"
+kind = "Pod"
+
+[metadata]
+name = "dapi-test-pod"
+
+[spec]
+restart-policy = "Never"
+
+[[spec.containers]]
+name = "test-container"
+image = "registry.k8s.io/busybox"
+command = [ "/bin/sh", "-c", "cat /etc/config/keys" ]
+
+[[spec.containers.volume-mounts]]
+name = "config-volume"
+mount-path = "/etc/config"
+
+[[spec.volumes]]
+name = "config-volume"
+
+[spec.volumes.config-map]
+name = "special-config"
+
+[[spec.volumes.config-map.items]]
+key = "SPECIAL_LEVEL"
+path = "keys"

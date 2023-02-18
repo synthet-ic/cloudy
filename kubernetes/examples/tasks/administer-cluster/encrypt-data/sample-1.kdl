@@ -1,0 +1,31 @@
+api-version = "apiserver.config.k8s.io/v1"
+kind = "EncryptionConfiguration"
+
+[[resources]]
+resources = [ "secrets" ]
+
+[[resources.providers]]
+identity = { }
+
+[[resources.providers]]
+[[resources.providers.aesgcm.keys]]
+name = "key1"
+secret = "c2VjcmV0IGlzIHNlY3VyZQ=="
+
+[[resources.providers.aesgcm.keys]]
+name = "key2"
+secret = "dGhpcyBpcyBwYXNzd29yZA=="
+
+[[resources.providers]]
+[[resources.providers.aescbc.keys]]
+name = "key1"
+secret = "c2VjcmV0IGlzIHNlY3VyZQ=="
+
+[[resources.providers.aescbc.keys]]
+name = "key2"
+secret = "dGhpcyBpcyBwYXNzd29yZA=="
+
+[[resources.providers]]
+[[resources.providers.secretbox.keys]]
+name = "key1"
+secret = "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXoxMjM0NTY="

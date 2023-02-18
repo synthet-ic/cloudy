@@ -1,0 +1,21 @@
+pod version="v1" name="dapi-test-pod" {
+  spec restart-policy="Never"
+
+[[spec.containers]]
+name = "test-container"
+image = "registry.k8s.io/busybox"
+command = [ "/bin/echo", "$(SPECIAL_LEVEL_KEY) $(SPECIAL_TYPE_KEY)" ]
+
+[[spec.containers.env]]
+name = "SPECIAL_LEVEL_KEY"
+
+[spec.containers.env.value-from.config-map-key-ref]
+name = "special-config"
+key = "SPECIAL_LEVEL"
+
+[[spec.containers.env]]
+name = "SPECIAL_TYPE_KEY"
+
+[spec.containers.env.value-from.config-map-key-ref]
+name = "special-config"
+key = "SPECIAL_TYPE"

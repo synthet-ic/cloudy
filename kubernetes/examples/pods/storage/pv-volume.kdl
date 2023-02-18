@@ -1,0 +1,18 @@
+kind = "PersistentVolume"
+api-version = "v1"
+
+[metadata]
+name = "task-pv-volume"
+
+[metadata.labels]
+type = "local"
+
+[spec]
+storage-class-name = "manual"
+access-modes = [ "ReadWriteOnce" ]
+
+[spec.capacity]
+storage = "10Gi"
+
+[spec.host-path]
+path = "/mnt/data"

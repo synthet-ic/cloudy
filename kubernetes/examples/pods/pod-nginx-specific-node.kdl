@@ -1,0 +1,13 @@
+api-version = "v1"
+kind = "Pod"
+
+[metadata]
+name = "nginx"
+
+[spec]
+node-name = "foo-node"
+
+[[spec.containers]]
+name = "nginx"
+image = "nginx"
+image-pull-policy = "IfNotPresent"

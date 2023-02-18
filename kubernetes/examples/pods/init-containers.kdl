@@ -1,0 +1,32 @@
+api-version = "v1"
+kind = "Pod"
+
+[metadata]
+name = "init-demo"
+
+[spec]
+dns-policy = "Default"
+
+[[spec.containers]]
+name = "nginx"
+image = "nginx"
+
+[[spec.containers.ports]]
+container-port = 80
+
+[[spec.containers.volume-mounts]]
+name = "workdir"
+mount-path = "/usr/share/nginx/html"
+
+[[spec.init-containers]]
+name = "install"
+image = "busybox"
+command = [ "wget", "-O", "/work-dir/index.html", "http://info.cern.ch" ]
+
+[[spec.init-containers.volume-mounts]]
+name = "workdir"
+mount-path = "/work-dir"
+
+[[spec.volumes]]
+name = "workdir"
+empty-dir = { }

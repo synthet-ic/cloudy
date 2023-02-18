@@ -1,0 +1,28 @@
+api-version = "v1"
+kind = "Pod"
+
+[metadata]
+name = "with-pod-affinity"
+
+[[spec.affinity.node-affinity.required-during-scheduling-ignored-during-execution]]
+topology-key = "topology.kubernetes.io/zone"
+
+[[spec.affinity.node-affinity.required-during-scheduling-ignored-during-execution.label-selector.match-expressions]]
+key = "security"
+operator = "In"
+values = [ "S1" ]
+
+[[spec.affinity.pod-anti-affinity.preferred-during-scheduling-ignored-during-execution]]
+weight = 100
+
+[spec.affinity.pod-anti-affinity.preferred-during-scheduling-ignored-during-execution.pod-affinity-term]
+topology-key = "topology.kubernetes.io/zone"
+
+[[spec.affinity.pod-anti-affinity.preferred-during-scheduling-ignored-during-execution.pod-affinity-term.label-selector.match-expressions]]
+key = "security"
+operator = "In"
+values = [ "S2" ]
+
+[[spec.containers]]
+name = "with-pod-affinity"
+image = "registry.k8s.io/pause"

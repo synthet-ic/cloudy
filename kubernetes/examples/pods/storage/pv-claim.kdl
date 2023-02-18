@@ -1,0 +1,12 @@
+kind = "PersistentVolumeClaim"
+api-version = "v1"
+
+[metadata]
+name = "task-pv-claim"
+
+[spec]
+storage-class-name = "manual"
+access-modes = [ "ReadWriteOnce" ]
+
+[spec.resources.requests]
+storage = "3Gi"

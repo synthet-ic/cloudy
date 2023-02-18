@@ -1,0 +1,23 @@
+api-version = "v1"
+kind = "Pod"
+
+[metadata]
+name = "with-node-affinity"
+
+[[spec.containers]]
+name = "with-node-affinity"
+image = "registry.k8s.io/pause"
+
+[[spec.affinity.node-affinity.preferred-during-scheduling-ignored-during-execution]]
+weight = 1
+
+[[spec.affinity.node-affinity.preferred-during-scheduling-ignored-during-execution.preference.match-expressions]]
+key = "another-node-label-key"
+operator = "In"
+values = [ "another-node-label-value" ]
+
+[[spec.affinity.node-affinity.required-during-scheduling-ignored-during-execution.node-selector-terms]]
+[[spec.affinity.node-affinity.required-during-scheduling-ignored-during-execution.node-selector-terms.match-expressions]]
+key = "topology.kubernetes.io/zone"
+operator = "In"
+values = [ "antarctica-east1", "antarctica-west1" ]
