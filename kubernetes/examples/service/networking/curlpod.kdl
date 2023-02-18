@@ -1,0 +1,19 @@
+deployment "curl-deployment" version="apps/v1" {
+  spec replicas=1 {
+    selector {
+      match-label key="app" value="curlpod"
+    }
+    template {
+      label key="app" value="curlpod"
+      spec {
+        container "curlpod" image="radial/busyboxplus:curl" {
+          command "sh" "-c" "while true; do sleep 1; done"
+          volume-mount "secret-volume" path="/etc/nginx/ssl"
+        }
+        volume "secret-volume" {
+          secret "nginx-secret"
+        }
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-pod version = "v1" name="host-aliases-pod" {
+pod "host-aliases-pod" version="v1" {
   spec restart-policy="never" {
     host-aliase ip="127.0.0.1" {
       host-names "foo.local" "bar.local"
@@ -6,7 +6,7 @@ pod version = "v1" name="host-aliases-pod" {
     host-aliase ip="10.1.2.3" {
       host-names "foo.remote" "bar.remote"
     }
-    container name="cat-hosts" image="busybox" {
+    container "cat-hosts" image="busybox" {
       command "cat"
       args "/etc/hosts"
     }

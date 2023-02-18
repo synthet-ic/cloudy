@@ -1,0 +1,19 @@
+job "indexed-job" version="batch/v1" {
+  spec completions=5 parallelism=3 completion-mode="indexed" {
+    template {
+      spec restart-policy="never" {
+        init-containers "input" image="docker.io/library/bash" {
+          command "bash" "-c" "items=(foo bar baz qux xyz)\necho ${items[$JOB_COMPLETION_INDEX]} > /input/data.txt\n"
+          volume-mount "input" path="/input"
+        }
+        container "worker" image="docker.io/library/busybox" {
+          command "rev" "/input/data.txt"
+          volume-mount "input" path="/input"
+        }
+        volume "input" {
+          empty-dir {}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+job "indexed-job" version="batch/v1" {
+  spec completions=3 parallelism=5 completion-mode="indexed" {
+    template {
+      spec restart-policy="never" {
+        container "worker" image="docker.io/library/busybox" {
+          command "rev" "/input/data.txt"
+          volume-mount "input" path="/input"
+        }
+        volume "input" {
+          downward-api {
+            item path="data.txt" {
+              field-ref field-path="metadata.annotations['batch.kubernetes.io/job-completion-index']"
+            }
+          }
+        }
+      }
+    }
+  }
+}
