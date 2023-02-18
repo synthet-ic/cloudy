@@ -1,0 +1,12 @@
+pod version="v1" name="liveness-http" {
+  labels test="liveness"
+  container name="liveness" image="registry.k8s.io/liveness" {
+    args "/server"
+    liveness-probe initial-delay-seconds=3 period-seconds=3 {
+      http-get path="/healthz" port=8080 {
+        http-headers name="custom-header" value="awesome"
+      }
+    }
+  }
+}
+

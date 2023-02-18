@@ -1,0 +1,11 @@
+pod version="v1" name="liveness-exec" {
+  labels test="liveness"
+  container name="liveness" image="registry.k8s.io/busybox" {
+    args "/bin/sh" "-c" "touch /tmp/healthy; sleep 30; rm -f /tmp/healthy; sleep 600"
+    liveness-probe initial-delay-seconds=5 period-seconds=5 {
+      exec {
+        command "cat" "/tmp/healthy"
+      }
+    }
+  }
+}

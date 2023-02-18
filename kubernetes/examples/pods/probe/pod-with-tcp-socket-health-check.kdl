@@ -1,0 +1,8 @@
+pod version="v1" name="pod-with-tcp-socket-healthcheck" {
+  container name="redis" image="redis" {
+    liveness-probe initial-delay-seconds=30 timeout-seconds=1 {
+      tcp-socket port=6379
+    }
+    port container-port=6379
+  }
+}
