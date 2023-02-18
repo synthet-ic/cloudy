@@ -1,0 +1,12 @@
+ingress version="networking.k8s.io/v1" name="minimal-ingress" {
+  annotation key="nginx.ingress.kubernetes.io/rewrite-target" value="/"
+  spec ingress-class-name="nginx-example" {
+    rule host="foo.bar.com" {
+      http {
+        path "/test-bar" type="prefix" {
+          service name="test" port=80
+        }
+      }
+    }
+  }
+}

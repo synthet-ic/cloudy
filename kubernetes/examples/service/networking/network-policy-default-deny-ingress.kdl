@@ -1,0 +1,6 @@
+network-policy version="networking.k8s.io/v1" name="default-deny-ingress" {
+  spec {
+    pod-selector {}
+    policy-types "ingress"
+  }
+}
