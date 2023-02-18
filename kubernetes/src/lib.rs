@@ -33,8 +33,9 @@ pub mod quantity;
 pub mod sigs;
 pub mod storage;
 pub mod time;
+mod cri;
 
-use kfl::Decode;
+use kfl::{Decode, DecodeScalar, ast::Literal};
 
 use authorisation::rbac::Rbac;
 // use config::{
@@ -76,11 +77,23 @@ use kubeadm::Kubeadm;
 //     Storage(Storage)
 // }
 
-// #[derive(Debug, Decode)]
-// pub enum IntOrString {
-//     Int(i32),
-//     String(String)
-// }
+#[derive(Debug)]
+pub enum IntOrString {
+    Int(i32),
+    String(String)
+}
+
+impl<S: kfl::traits::ErrorSpan> DecodeScalar<S> for IntOrString {
+    fn decode(value: &kfl::ast::Value<S>, ctx: &mut kfl::decode::Context<S>)
+        -> Result<Self, kfl::errors::DecodeError<S>>
+    {
+        match &value.literal {
+            Literal::Int() => ,
+            Literal::String() => 
+            _ => Err
+        }
+    }
+}
 
 pub fn default_true() -> bool {
     true

@@ -9,17 +9,8 @@ use std::{
 use kfl::{Decode, DecodeScalar};
 
 use crate::{
-    core::{
-        field_selector::FieldSelector,
-        local_reference::LocalReference,
-        resource_field_selector::ResourceFieldSelector,
-        volume::Volume
-    },
-    meta::{
-        condition::Condition,
-        label_selector::LabelSelector,
-        metadata::Metadata
-    },
+    core::{FieldSelector, LocalReference, ResourceFieldSelector, Volume},
+    meta::{Condition, LabelSelector, Metadata},
     node_selector::{NodeSelector, NodeSelectorTerm},
     protocol::Protocol,
     quantity::Quantity,
@@ -30,13 +21,13 @@ use crate::{
 #[derive(Debug, Decode)]
 pub struct Pod {
     metadata: Metadata,
-    spec: PodSpec,
-    status: Option<PodStatus>
+    spec: Spec,
+    status: Option<Status>
 }
 
 /// <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#PodSpec>
 #[derive(Debug, Decode)]
-pub struct PodSpec {
+pub struct Spec {
     // Containers
     // <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#containers>
 
@@ -52,8 +43,9 @@ pub struct PodSpec {
     ///
     /// More info: <https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod>
     image_pull_secrets: Vec<LocalReference>,
-    /// enable_service_links indicates whether information about services should be injected into pod's environment variables, matching the syntax of Docker links. Optional: Defaults to true.
-    enable_service_links: Option<bool>,
+    /// Indicates whether information about services should be injected into pod's environment variables, matching the syntax of Docker links. Optional: Defaults to true.
+    #[kfl(default = true)]
+    enable_service_links: bool,
     /// Specifies the OS of the containers in the pod. Some pod and container fields are restricted if this is set.
     os: Option<PodOS>,
 
@@ -66,11 +58,12 @@ pub struct PodSpec {
 
     // Scheduling
     // <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling>
-    /// `node_selector` is a selector which must be true for the pod to fit on a node. Selector which must match a node's labels for the pod to be scheduled on that node.
+
+    /// Selector which must be true for the pod to fit on a node. Selector which must match a node's labels for the pod to be scheduled on that node.
     ///
     /// More info: <https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/>
     node_selector: HashMap<String, String>,
-    /// `node_name` is a request to schedule this pod onto a specific node. If it is non-empty, the scheduler simply schedules this pod onto that node, assuming that it fits resource requirements.
+    /// Request to schedule this pod onto a specific node. If it is non-empty, the scheduler simply schedules this pod onto that node, assuming that it fits resource requirements.
     node_name: Option<String>,
     /// If specified, the pod's scheduling constraints.
     affinity: Option<Affinity>,
@@ -95,7 +88,7 @@ pub struct PodSpec {
     /// `overhead` represents the resource overhead associated with running a pod for a given RuntimeClass. This field will be auto-populated at admission time by the RuntimeClass admission controller. If the RuntimeClass admission controller is enabled, overhead must not be set in Pod create requests. The RuntimeClass admission controller will reject Pod create requests which have the overhead already set. If RuntimeClass is configured and selected in the PodSpec, Overhead will be set to the value defined in the corresponding RuntimeClass, otherwise it will remain unset and treated as zero.
     ///
     /// More info: <https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/688-pod-overhead/README.md>
-    overhead: Option<HashMap<String, Quantity>>,
+    overhead: HashMap<String, Quantity>,
 
     // Lifecycle
     // <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#lifecycle>
@@ -113,7 +106,7 @@ pub struct PodSpec {
     /// If specified, all readiness gates will be evaluated for pod readiness. A pod is ready when all its containers are ready AND all conditions specified in the readiness gates have status equal to `True`.
     ///
     /// More info: <https://github.com/kubernetes/enhancements/tree/master/keps/sig-network/580-pod-readiness-gates>
-    readiness_gates: Vec<PodReadinessGate>,
+    readiness_gates: Vec<ReadinessGate>,
 
     // Hostname and Name Resolution
     // <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#hostname-and-name-resolution>
@@ -128,10 +121,10 @@ pub struct PodSpec {
     /// `host_aliases` is an optional list of hosts and IPs that will be injected into the pod's hosts file if specified. This is only valid for non-[`host_network`][Self::host_network] pods.
     host_aliases: Vec<HostAlias>,
     /// Specifies the DNS parameters of a pod. Parameters specified here will be merged to the generated DNS configuration based on [`dns_policy`][Self::dns_policy].
-    dns_config: Option<PodDNSConfig>,
+    dns_config: Option<DnsConfig>,
     /// Set DNS policy for the pod. Defaults to `ClusterFirst`. Valid values are `ClusterFirstWithHostNet`, `ClusterFirst`, `Default` or `None`. DNS parameters given in [`dns_config`][Self::dns_config] will be merged with the policy selected with `dns_policy`. To have DNS options set along with [`host_network`][Self::host_network], you have to specify DNS policy explicitly to `ClusterFirstWithHostNet`.
-    #[kfl(default = "PodDNSPolicy::ClusterFirst")]
-    dns_policy: Option<PodDNSPolicy>,
+    #[kfl(default = DnsPolicy::ClusterFirst)]
+    dns_policy: DnsPolicy,
 
     // Hosts Namespaces
     // <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#hosts-namespaces>
@@ -240,12 +233,11 @@ pub struct Container {
 
     // Resources
     // <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources>
-    /**
-    Compute Resources required by this container. Cannot be updated.
-    
-    More info: [Resource Management for Pods and Containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
-    */
-    resources: Option<ResourceRequirements>,
+
+    /// Compute Resources required by this container. Cannot be updated.
+    ///
+    /// More info: [Resource Management for Pods and Containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
+    resources: Option<Resource>,
 
     // Lifecycle
     // <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#lifecycle-1>
@@ -253,7 +245,7 @@ pub struct Container {
     /// Actions that the management system should take in response to container lifecycle events. Cannot be updated.
     lifecycle: Option<Lifecycle>,
     /// Optional: Path at which the file to which the container's termination message will be written is mounted into the container's filesystem. Message written is intended to be brief final status, such as an assertion failure message. Will be truncated by the node if greater than 4096 bytes. The total message length across all containers will be limited to 12kb. Defaults to `"/dev/termination-log"`. Cannot be updated.
-    #[kfl(default = "/dev/termination-log")]
+    #[kfl(default = "/dev/termination-log".into())]
     termination_message_path: PathBuf,
     /// Indicate how the termination message should be populated. File will use the contents of [`termination_message_path`][Self::termination_message_path] to populate the container status message on both success and failure. `FallbackToLogsOnError` will use the last chunk of container log output if the termination message file is empty and the container exited with an error. The log output is limited to 2048 bytes or 80 lines, whichever is smaller. Defaults to `File`. Cannot be updated.
     #[kfl(default = TerminationMessagePolicy::File)]
@@ -280,6 +272,7 @@ pub struct Container {
     
     // Debugging
     // <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#debugging>
+
     /// Whether this container should allocate a buffer for stdin in the container runtime. If this is not set, reads from stdin in the container will always result in EOF. Default is `false`.
     #[kfl(default)]
     stdin: bool,
@@ -392,9 +385,9 @@ pub struct VolumeDevice {
 }
 
 #[derive(Debug, Decode)]
-pub struct ResourceRequirements {
-    limits: Option<HashMap<String, Quantity>>,
-    requests: Option<HashMap<String, Quantity>>
+pub struct Resource {
+    limits: HashMap<String, Quantity>,
+    requests: HashMap<String, Quantity>
 }
 
 #[derive(Debug, Decode, Default)]
@@ -585,7 +578,7 @@ pub enum TolerationOperator {
     Equal
 }
 
-#[derive(Debug, Decode)]
+#[derive(Debug, DecodeScalar)]
 pub enum TaintEffect {
     NoSchedule,
     PreferNoSchedule,
@@ -627,7 +620,7 @@ pub enum RestartPolicy {
 }
 
 #[derive(Debug, Decode)]
-pub struct PodReadinessGate {
+pub struct ReadinessGate {
     condition_type: String
 }
 
@@ -638,7 +631,7 @@ pub struct HostAlias {
 }
 
 #[derive(Debug, Decode)]
-pub struct PodDNSConfig {
+pub struct DnsConfig {
     nameservers: Vec<String>,
     options: Vec<PodDNSConfigOption>,
     searches: Vec<String>
@@ -651,7 +644,7 @@ pub struct PodDNSConfigOption {
 }
 
 #[derive(Debug, Decode, Default)]
-pub enum PodDNSPolicy {
+pub enum DnsPolicy {
     ClusterFirstWithHostNet,
     #[default]
     ClusterFirst,
@@ -727,9 +720,9 @@ pub struct WindowsSecurityContextOptions {
     run_as_user_name: Option<String>
 }
 
-/// <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#PodStatus>
+/// <https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#Status>
 #[derive(Debug, Decode)]
-pub struct PodStatus {
+pub struct Status {
     nominated_node_name: String,
     host_ip: String,
     start_time: Time,

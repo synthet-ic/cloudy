@@ -23,7 +23,7 @@ pub struct RuntimeClass {
 
 #[derive(Debug, Decode)]
 pub struct Overhead {
-    pod_fixed: Option<HashMap<String, Quantity>>
+    pod_fixed: HashMap<String, Quantity>
 }
 
 #[derive(Debug, Decode)]

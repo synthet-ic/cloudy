@@ -23,7 +23,7 @@ pub struct ResourceQuota {
 /// <https://kubernetes.io/docs/reference/kubernetes-api/policy-resources/resource-quota-v1/#ResourceQuotaSpec>
 #[derive(Debug, Decode)]
 pub struct ResourceQuotaSpec {
-   hard: Option<HashMap<String, Quantity>>,
+   hard: HashMap<String, Quantity>,
    scope_selector: Option<ScopeSelector>,
    scopes: Vec<String>
 }
@@ -51,6 +51,6 @@ pub enum ScopedResourceSelectorRequirementOperator {
 /// <https://kubernetes.io/docs/reference/kubernetes-api/policy-resources/resource-quota-v1/#ResourceQuotaStatus>
 #[derive(Debug, Decode)]
 pub struct ResourceQuotaStatus {
-   hard: Option<HashMap<String, Quantity>>,
-   used: Option<HashMap<String, Quantity>>
+   hard: HashMap<String, Quantity>,
+   used: HashMap<String, Quantity>
 }

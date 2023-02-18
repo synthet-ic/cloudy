@@ -1,0 +1,3 @@
+node version="v1" name="10.240.79.157" {
+  label key="name" value="my-first-k8s-node"
+}

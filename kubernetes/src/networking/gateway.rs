@@ -2,7 +2,7 @@ pub mod gateway;
 pub mod gateway_class;
 pub mod http_route;
 
-use kfl::Decode;
+// use kfl::Decode;
 
 pub use gateway::Gateway;
 pub use gateway_class::GatewayClass;
