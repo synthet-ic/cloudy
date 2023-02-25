@@ -1,5 +1,5 @@
 ingress-class "nginx-example" version="networking.k8s.io/v1" {
   label key="app.kubernetes.io/component" value="controller"
   annotation key="ingressclass.kubernetes.io/is-default-class" value="true"
-  spec controller="k8s.io/ingress-nginx"
+  controller "k8s.io/ingress-nginx"
 }
