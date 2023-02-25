@@ -1,17 +1,8 @@
-version="v1"
-kind="Pod"
-
-[metadata]
-name="cpu-demo-2"
-namespace="cpu-example"
-
-[[spec.containers]]
-name="cpu-demo-ctr-2"
-image="vish/stress"
-args=[ "-cpus", "2" ]
-
-[spec.containers.resources.limits]
-cpu="100"
-
-[spec.containers.resources.requests]
-cpu="100"
+pod "cpu-demo-2" namespace="cpu-example" version="v1" {
+  container "cpu-demo-ctr-2" image="vish/stress"
+    args "-cpus" "2"
+    resource {
+      limit cpu="100"
+      request cpu="100"
+    }
+}
