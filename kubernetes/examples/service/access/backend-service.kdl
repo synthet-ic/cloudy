@@ -1,6 +1,4 @@
-service version="v1" name="hello" {
+service "hello" version="v1" {
   selector app="hello" tier="backend"
-  spec {
-    port protocol="tcp" port=80 target-port="http"
-  }
+  port protocol="tcp" port=80 target-port="http"
 }
