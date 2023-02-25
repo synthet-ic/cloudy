@@ -1,13 +1,7 @@
-version="rbac.authorization.k8s.io/v1"
-kind="RoleBinding"
-
-[metadata]
-name="topo-aware-scheduler-as-kube-scheduler"
-namespace="kube-system"
-
-[[subjects]]
-kind="ServiceAccount"
-name="topo-aware-scheduler"
+namespace "kube-system" {
+  version="rbac.authorization.k8s.io/v1"
+  role-binding "topo-aware-scheduler-as-kube-scheduler" {
+    (subject)service-account "topo-aware-scheduler"
 namespace="kube-system"
 
 [roleRef]
