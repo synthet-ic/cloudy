@@ -1,10 +1,8 @@
 version="v1"
-kind="Pod"
-
-[metadata]
-name="nginx"
-
-[[spec.affinity.node-affinity.preferred-during-scheduling-ignored-during-execution.node-selector-terms]]
+pod "nginx" {
+  affinity {
+    node-affinity {
+      preferred-during-scheduling-ignored-during-execution.node-selector-terms]]
 [[spec.affinity.node-affinity.preferred-during-scheduling-ignored-during-execution.node-selector-terms.match-expressions]]
 key="disctype"
 operator="In"
