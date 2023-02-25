@@ -1,9 +1,4 @@
 api-version = "cert-manager.io/v1"
-kind = "Issuer"
-
-[metadata]
-name = "ca-issuer"
-namespace = "default"
-
-[spec.ca]
-secret-name = "ca"
+issuer "ca-issuer" {
+  ca secret-name"ca"
+}
