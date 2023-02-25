@@ -1,6 +1,6 @@
 namespace "kube-system" {
   pod "konnectivity-server" version="v1" {
-    spec priority-class-name="system-cluster-critical" host-network=true {
+    spec priority-class-name="system-cluster-critical" host-network {
 
   }
 }
