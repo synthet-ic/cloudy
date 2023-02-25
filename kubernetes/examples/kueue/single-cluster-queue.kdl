@@ -1,0 +1,19 @@
+resource-flavour "default-flavour" version=kueue.x-k8s.io/v1alpha2
+
+cluster-queue "cluster-queue" version=kueue.x-k8s.io/v1alpha2 {
+  namespace-selector {}
+  resource "cpu" {
+    flavour "default-flavour" {
+      quota min=9
+    }
+  }
+  resource "memory" {
+    flavour "default-flavour" {
+      quota min=36Gi
+    }
+  }
+}
+
+local-queue "user-queue" version=kueue.x-k8s.io/v1alpha2 {
+  cluster-queue "cluster-queue"
+}
