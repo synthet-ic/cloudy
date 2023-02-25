@@ -5,11 +5,9 @@ pod "dapi-test-pod" version="v1" {
     volume-mount "config-volume"
     mount-path "/etc/config"
   }
-  volumes "config-volume" {
-
-[spec.volumes.config-map]
-name="special-config"
-
-[[spec.volumes.config-map.items]]
-key="SPECIAL_LEVEL"
-path="keys"
+  volume "config-volume" {
+    config-map "special-config" {
+      item key="SPECIAL_LEVEL" path="keys"
+    }
+  }
+}
