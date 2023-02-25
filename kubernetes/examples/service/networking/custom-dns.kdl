@@ -1,11 +1,10 @@
-pod "dns-example" namespace="default" version="v1" {
-  spec dns-policy="none" {
-    container "test" image="nginx"
-    dns-config {
-      nameservers "1.2.3.4"
-      searches "ns1.svc.cluster-domain.example" "my.dns.search.suffix"
-      option name="ndots" value="2"
-      option name="edns0"
-    }
+pod "dns-example" version="v1" {
+  dns-policy "none"
+  container "test" image="nginx"
+  dns-config {
+    nameservers "1.2.3.4"
+    searches "ns1.svc.cluster-domain.example" "my.dns.search.suffix"
+    option name="ndots" value="2"
+    option name="edns0"
   }
 }
