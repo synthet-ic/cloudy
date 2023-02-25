@@ -4,22 +4,15 @@
 # the client-egress-only-dns policy.
 
 api-version = "cilium.io/v2"
-kind = "CiliumNetworkPolicy"
-
-[metadata]
-name = "client-egress-l7-http"
-
-[spec]
-description = "Allow GET one.one.one.one:80/ and GET <echo>:8080/ from client2"
-
-[spec.endpoint-selector.match-labels]
-other = "client"
-
-[[spec.egress]]
-[[spec.egress.to-endpoints]]
-[spec.egress.to-endpoints.match-labels]
-"k8s:kind" = "echo"
-
+cilium-network-policy "client-egress-l7-http" {
+  description "Allow GET one.one.one.one:80/ and GET <echo>:8080/ from client2"
+  endpoint-selector {
+    match-label other="client"
+  }
+  egress {
+    to-endpoint {
+      match-label "k8s:kind" = "echo"
+    }
 [[spec.egress.to-ports]]
 [[spec.egress.to-ports.ports]]
 port = "8080"
