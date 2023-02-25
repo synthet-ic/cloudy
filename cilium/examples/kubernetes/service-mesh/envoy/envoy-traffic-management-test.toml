@@ -1,20 +1,9 @@
 api-version = "cilium.io/v2"
-kind = "CiliumClusterwideEnvoyConfig"
-
-[metadata]
-name = "envoy-lb-listener"
-
-[[spec.services]]
-name = "echo-service-1"
-namespace = "default"
-
-[[spec.services]]
-name = "echo-service-2"
-namespace = "default"
-
-[[spec.resources]]
-"@type" = "type.googleapis.com/envoy.config.listener.v3.Listener"
-name = "envoy-lb-listener"
+cilium-clusterwide-envoy-config "envoy-lb-listener"
+  service "echo-service-1" namespace = "default"
+  service "echo-service-2" namespace = "default"
+  resource "@type" = "type.googleapis.com/envoy.config.listener.v3.Listener"
+    name = "envoy-lb-listener"
 
 [[spec.resources.filter-chains]]
 [[spec.resources.filter-chains.filters]]
