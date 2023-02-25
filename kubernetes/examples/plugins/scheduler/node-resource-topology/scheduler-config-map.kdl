@@ -1,9 +1,7 @@
 namespace "kube-system" {
   version="v1"
   config-map "topo-aware-scheduler-config" {
-
-[data]
-"scheduler-config.yaml"="""
+  data "scheduler-config.yaml" {
 api-version: kubescheduler.config.k8s.io/v1beta2
 kind: KubeSchedulerConfiguration
 leaderElection:
@@ -25,4 +23,5 @@ profiles:
       args:
         scoringStrategy:
           type: "LeastAllocated"
-"""
+  }
+}
