@@ -1,4 +1,4 @@
-service version="v1" name="nginx-service" {
+service "nginx-service" version="v1" {
   spec {
     port port=8000 target-port=80 protocol="tcp"
     selector key="app" valu="nginx"
