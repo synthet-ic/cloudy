@@ -1,8 +1,5 @@
 api-version = "cilium.io/v2"
-kind = "CiliumNetworkPolicy"
-
-[metadata]
-name = "client-egress-only-dns"
+cilium-network-policy "client-egress-only-dns" {
 
 [spec.endpoint-selector.match-labels]
 kind = "client"
