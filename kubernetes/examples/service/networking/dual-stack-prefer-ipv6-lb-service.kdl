@@ -1,9 +1,8 @@
-service version="v1" name="my-service" {
+(service)load-balancer "my-service" version="v1" {
   label key="app.kubernetes.io/name" value="my-app"
   spec {
     ip-family-policy "prefer-dual-stack"
     ip-families "ipv6"
-    type "load-balancer"
     selector key="app.kubernetes.io/name" value="my-app"
     port protocol="tcp" port=80
   }
