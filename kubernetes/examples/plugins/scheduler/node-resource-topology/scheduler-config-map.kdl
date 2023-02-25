@@ -1,9 +1,6 @@
-version="v1"
-kind="ConfigMap"
-
-[metadata]
-name="topo-aware-scheduler-config"
-namespace="kube-system"
+namespace "kube-system" {
+  version="v1"
+  config-map "topo-aware-scheduler-config" {
 
 [data]
 "scheduler-config.yaml"="""
