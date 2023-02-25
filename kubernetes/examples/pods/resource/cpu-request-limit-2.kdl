@@ -1,5 +1,5 @@
 pod "cpu-demo-2" namespace="cpu-example" version="v1" {
-  container "cpu-demo-ctr-2" image="vish/stress"
+  container "cpu-demo-ctr-2" image="vish/stress" {
     args "-cpus" "2"
     resource {
       limit cpu="100"
