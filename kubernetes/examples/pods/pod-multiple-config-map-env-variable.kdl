@@ -1,21 +1,10 @@
 version="v1"
-kind="Pod"
-
-[metadata]
-name="dapi-test-pod"
-
-spec {}
-restart-policy="Never"
-
-[[spec.containers]]
-name="test-container"
-image="registry.k8s.io/busybox"
-command=[ "/bin/sh", "-c", "env" ]
-
-[[spec.containers.env]]
-name="SPECIAL_LEVEL_KEY"
-
-[spec.containers.env.value-from.config-map-key-ref]
+pod "dapi-test-pod" {
+  restart-policy "never"
+  container "test-container" image="registry.k8s.io/busybox"
+    command "/bin/sh" "-c" "env" ]
+    env name="SPECIAL_LEVEL_KEY" {
+      value-from.config-map-key-ref]
 name="special-config"
 key="special.how"
 
