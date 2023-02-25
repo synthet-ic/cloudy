@@ -1,7 +1,7 @@
-deployment "kube-dns-autoscaler" namespace="kube-system" version="apps/v1" {
-  label key="k8s-app" value="kube-dns-autoscaler"
-  label key="kubernetes.io/cluster-service" value="true"
-  spec {
+namespace "kube-system" {
+  deployment "kube-dns-autoscaler" version="apps/v1" {
+    label key="k8s-app" value="kube-dns-autoscaler"
+    label key="kubernetes.io/cluster-service" value="true"
     selector {
       match-label key="k8s-app" value="kube-dns-autoscaler"
     }
