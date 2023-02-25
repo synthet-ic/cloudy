@@ -1,15 +1,8 @@
-version="apps/v1"
-kind="StatefulSet"
-
-[metadata]
-name="cassandra"
-
-[metadata.labels]
-app="cassandra"
-
-spec {}
-service-name="cassandra"
-replicas=3
+stateful-set "cassandra" version="apps/v1" {
+  labels app="cassandra"
+  service-name "cassandra"
+  replicas 3
+}
 
 [spec.selector.match-labels]
 app="cassandra"

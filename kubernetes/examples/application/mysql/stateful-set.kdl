@@ -1,9 +1,6 @@
-version="apps/v1"
-kind="StatefulSet"
+stateful-set "mysql" version="apps/v1" {
 
-[metadata]
-name="mysql"
-
+}
 spec {}
 service-name="mysql"
 replicas=3

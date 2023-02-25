@@ -1,4 +1,5 @@
-deployment "my-scheduler" namespace="kube-system" version="apps/v1" {
+namespace "kube-system" {
+  deployment "my-scheduler" version="apps/v1" {
   labels component="scheduler" tier="control-plane"
   spec replicas=1 {
     selector {
@@ -28,4 +29,5 @@ deployment "my-scheduler" namespace="kube-system" version="apps/v1" {
       }
     }
   }
+}
 }

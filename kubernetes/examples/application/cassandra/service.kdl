@@ -1,17 +1,6 @@
-version="v1"
-kind="Service"
-
-[metadata]
-name="cassandra"
-
-[metadata.labels]
-app="cassandra"
-
-spec {}
-cluster-ip="None"
-
-[[spec.ports]]
-port=9042
-
-[spec.selector]
-app="cassandra"
+service "cassandra" version="v1" {
+  labels app="cassandra"
+  cluster-ip null
+  port 9042
+  selector app="cassandra"
+}

@@ -1,8 +1,10 @@
-config-map "my-scheduler-config" namespace="kube-system" version="v1" {
-  data "my-scheduler-config.yaml" {
-    kube-scheduler version="kubescheduler.config.k8s.io/v1beta2" {
-      profiles scheduler-name="my-scheduler"
-      leader-election leader-elect=false
+namespace "kube-system" {
+  config-map "my-scheduler-config" version="v1" {
+    data "my-scheduler-config.yaml" {
+      kube-scheduler version="kubescheduler.config.k8s.io/v1beta2" {
+        profiles scheduler-name="my-scheduler"
+        leader-election leader-elect=false
+      }
     }
   }
 }

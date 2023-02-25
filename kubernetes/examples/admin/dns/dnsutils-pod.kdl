@@ -1,4 +1,4 @@
-pod "dnsutils" namespace="default" version="v1" {
+pod "dnsutils" version="v1" {
   spec restart-policy="always" {
     container "dnsutils" image="registry.k8s.io/e2e-test-images/jessie-dnsutils" image-pull-policy="if-not-present" {
       command "sleep" "3600"

@@ -1,11 +1,6 @@
-version="apps/v1"
-kind="Deployment"
-
-[metadata]
-name="my-nginx"
-
-[metadata.labels]
-app="nginx"
+deployment "my-nginx" version="apps/v1" {
+  labels app="nginx"
+}
 
 spec {}
 replicas=3

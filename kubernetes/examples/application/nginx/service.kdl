@@ -1,17 +1,5 @@
-version="v1"
-kind="Service"
-
-[metadata]
-name="my-nginx-svc"
-
-[metadata.labels]
-app="nginx"
-
-spec {}
-type="LoadBalancer"
-
-[[spec.ports]]
-port=80
-
-[spec.selector]
-app="nginx"
+(service)load-balancer "my-nginx-svc" version="v1" {
+  labels app="nginx"
+  port port=80
+  selector app="nginx"
+}

@@ -1,18 +1,7 @@
-version="v1"
-kind="PersistentVolume"
-
-[metadata]
-name="mysql-pv-volume"
-
-[metadata.labels]
-type="local"
-
-spec {}
-storage-class-name="manual"
-access-modes=[ "read-write-once" ]
-
-[spec.capacity]
-storage="20Gi"
-
-[spec.host-path]
-path="/mnt/data"
+persistent-volume "mysql-pv-volume" version="v1" {
+  labels type="local"
+  storage-class-name "manual"
+  access-modes "read-write-once"
+  capacity storage="20Gi"
+  host-path "/mnt/data"
+}

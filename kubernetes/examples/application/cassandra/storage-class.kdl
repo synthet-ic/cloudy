@@ -1,9 +1,8 @@
 version="storage.k8s.io/v1"
-kind="StorageClass"
-provisioner="k8s.io/minikube-hostpath"
+storage-class "fast" {
 
-[metadata]
-name="fast"
+}
+provisioner="k8s.io/minikube-hostpath"
 
 [parameters]
 type="pd-ssd"

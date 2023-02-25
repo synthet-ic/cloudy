@@ -1,4 +1,4 @@
-pod "redis-master" namespace="default" version="v1" {
+pod "redis-master" version="v1" {
   label key="app" value="redis"
   spec {
     container "master" image="redis" {
