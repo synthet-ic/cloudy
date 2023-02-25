@@ -1,23 +1,12 @@
 api-version = "gateway.networking.k8s.io/v1beta1"
-kind = "HTTPRoute"
-
-[metadata]
-name = "http-app-1"
-
-[[spec.parentRefs]]
-name = "my-gateway"
-namespace = "default"
-
-[[spec.rules]]
-[[spec.rules.matches]]
-[spec.rules.matches.path]
-type = "PathPrefix"
-value = "/details"
-
-[[spec.rules.backend-refs]]
-name = "details"
-port = 9080
-
+http-route "http-app-1" {
+  parent-ref "my-gateway" namespace = "default"
+  rule {
+    match {
+      path type = "PathPrefix" value = "/details"
+    }
+    backend-ref name = "details" port = 9080
+  }
 [[spec.rules]]
 [[spec.rules.matches]]
 method = "GET"
