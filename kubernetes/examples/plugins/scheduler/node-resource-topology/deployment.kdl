@@ -1,9 +1,6 @@
-version="apps/v1"
-kind="Deployment"
-
-[metadata]
-name="topo-aware-scheduler"
-namespace="kube-system"
+namespace "kube-system" {
+  version="apps/v1"
+  deployment "topo-aware-scheduler"
 
 [metadata.labels]
 component="scheduler"
