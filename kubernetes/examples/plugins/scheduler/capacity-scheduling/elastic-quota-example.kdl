@@ -1,16 +1,7 @@
-version="scheduling.sigs.k8s.io/v1alpha1"
-kind="ElasticQuota"
-
-[metadata]
-name="test"
-namespace="test"
-
-[spec.max]
-cpu=20
-memory="40Gi"
-"nvidia.com/gpu"=2
-
-[spec.min]
-cpu=10
-memory="20Gi"
-"nvidia.com/gpu"=1
+namespace "test" {
+  version="scheduling.sigs.k8s.io/v1alpha1"
+  elastic-quota "test" {
+    max cpu=20 memory="40Gi" "nvidia.com/gpu"=2
+    min cpu=10 memory="20Gi" "nvidia.com/gpu"=1
+  }
+}
