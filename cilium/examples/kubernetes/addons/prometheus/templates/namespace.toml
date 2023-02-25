@@ -1,5 +1,2 @@
 api-version = "v1"
-kind = "Namespace"
-
-[metadata]
-name = "cilium-monitoring"
+namespace "cilium-monitoring"
