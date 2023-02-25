@@ -5,4 +5,5 @@ pod "cpu-demo-2" namespace="cpu-example" version="v1" {
       limit cpu="100"
       request cpu="100"
     }
+  }
 }
