@@ -1,8 +1,5 @@
 version="apps/v1"
-kind="Deployment"
-
-[metadata]
-name="test-deployment"
+deployment "test-deployment"
 
 [spec.selector.match-labels]
 name="test"
