@@ -1,12 +1,12 @@
 version="topology.node.k8s.io/v1alpha1"
 node-resource-topology "worker-node-1" {
-  topology-policies=[ "SingleNUMANodeContainerLevel" ]
-  zone "node-0" type="Node" {
+  topology-policies "SingleNUMANodeContainerLevel"
+  (zone)node "node-0" {
     resource "cpu" capacity=4 allocatable=3
     resource "example.com/deviceA" capacity=1 allocatable=1
     resource "example.com/deviceB" capacity=2 allocatable=2
   }
-  zone "node-1" type="Node" {
+  (zone)node "node-1" {
     resource "cpu" capacity=4 allocatable=3
     resource "example.com/deviceA" capacity=2 allocatable=2
     resource "example.com/deviceB" capacity=1 allocatable=1
