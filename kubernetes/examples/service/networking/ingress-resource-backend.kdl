@@ -1,13 +1,13 @@
-ingress version="networking.k8s.io/v1" name="ingress-resource-backend" {
+ingress "ingress-resource-backend" version="networking.k8s.io/v1" {
   annotation key="nginx.ingress.kubernetes.io/rewrite-target" value="/$1"
   spec {
     default-backend {
-      resource api-group="k8s.example.com" kind="storage-bucket" name="static-assets"
+      resource "static-assets" api-group="k8s.example.com" kind=storage-bucket
     }
     rule {
       http {
         path "/icons" type="implementation-specific" {
-          resource api-group="k8s.example.com" kind="storage-bucket" name="icon-assets"
+          resource "icon-assets" api-group="k8s.example.com" kind=storage-bucket
         }
       }
     }
