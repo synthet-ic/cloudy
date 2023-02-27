@@ -1,7 +1,7 @@
 job "job-pod-failure-policy-example" version="batch/v1" {
   spec completions=12 parallelism=3 backoff-limit=6 {
     template {
-      spec restart-policy="never" {
+      spec restart-policy=never {
         container "main" image="docker.io/library/bash" {
           // Example command simulating a bug which triggers the FailJob action
           command "bash"

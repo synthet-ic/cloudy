@@ -1,5 +1,5 @@
-ingress-class version="networking.k8s.io/v1" name="external-lb" {
+ingress-class "external-lb" version="networking.k8s.io/v1" {
   spec controller="example.com/ingress-controller" {
-    parameters api-group="k8s.example.com" kind="ingress-parameters" name="external-lb"
+    parameters "external-lb" api-group="k8s.example.com" kind=ingress-parameters
   }
 }

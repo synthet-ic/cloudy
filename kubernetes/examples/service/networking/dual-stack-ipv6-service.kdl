@@ -1,6 +1,6 @@
 service "my-service" version="v1" {
   label key="app.kubernetes.io/name" value="my-app"
-  ip-families "ipv6"
+  ip-families ipv6
   selector key="app.kubernetes.io/name" value="my-app"
-  port protocol="tcp" port=80 target-port=9376
+  port protocol=tcp port=80 target-port=9376
 }

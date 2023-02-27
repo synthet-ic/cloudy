@@ -1,5 +1,5 @@
 pod "dapi-test-pod" version="v1" {
-  spec restart-policy="never" {
+  spec restart-policy=never {
     container "test-container" image="registry.k8s.io/busybox" {
       command "/bin/sh" c="env"
       env-from {

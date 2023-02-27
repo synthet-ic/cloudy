@@ -2,8 +2,8 @@
   label key="app.kubernetes.io/name" value="my-app"
   spec {
     ip-family-policy "prefer-dual-stack"
-    ip-families "ipv6"
+    ip-families ipv6
     selector key="app.kubernetes.io/name" value="my-app"
-    port protocol="tcp" port=80
+    port protocol=tcp port=80
   }
 }

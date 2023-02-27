@@ -3,11 +3,11 @@ network-policy "test-network-policy" version="networking.k8s.io/v1" {
     pod-selector {
       match-label key="role" value="db"
     }
-    policy-types "ingress" "egress"
+    policy-types ingress egress
     ingress {
       from {
-        ip-block cidr="172.17.0.0/16" {
-          except "172.17.1.0/24"
+        ip-block cidr=172.17.0.0/16 {
+          except 172.17.1.0/24
         }
         namespace-selector {
           match-label key="project" value="my-project"
@@ -16,13 +16,13 @@ network-policy "test-network-policy" version="networking.k8s.io/v1" {
           match-label key="role" value="frontend"
         }
       }
-      port protocol="tcp" port=6379
+      port protocol=tcp port=6379
     }
     egress {
       to {
-        ip-block cidr="10.0.0.0/24"
+        ip-block cidr=10.0.0.0/24
       }
-      port protocol="tcp" port=5978
+      port protocol=tcp port=5978
     }
   }
 }

@@ -1,5 +1,5 @@
 service "my-service" version="v1" {
   label key="app.kubernetes.io/name" value="my-app"
   selector key="app.kubernetes.io/name" value="my-app"
-  port protocol="tcp" port=80
+  port protocol=tcp port=80
 }
