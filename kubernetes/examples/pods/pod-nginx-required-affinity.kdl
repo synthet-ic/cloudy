@@ -1,5 +1,4 @@
-version="v1"
-pod "nginx" {
+pod "nginx" version="v1" {
   affinity {
     node-affinity {
       preferred-during-scheduling-ignored-during-execution.node-selector-terms]]
@@ -11,4 +10,4 @@ values=[ "ssd" ]
 [[spec.containers]]
 name="nginx"
 image="nginx"
-image-pull-policy="IfNotPresent"
+image-pull-policy=IfNotPresent

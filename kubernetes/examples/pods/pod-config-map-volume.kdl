@@ -1,23 +1,10 @@
-version="v1"
-kind="Pod"
-
-[metadata]
-name="dapi-test-pod"
-
-spec {}
-restart-policy="Never"
-
-[[spec.containers]]
-name="test-container"
-image="registry.k8s.io/busybox"
-command=[ "/bin/sh", "-c", "ls /etc/config/" ]
-
-[[spec.containers.volume-mounts]]
-name="config-volume"
-mount-path="/etc/config"
-
-[[spec.volumes]]
-name="config-volume"
-
-[spec.volumes.config-map]
-name="special-config"
+pod "dapi-test-pod" version="v1" {
+  restart-policy never
+  container "test-container" image="registry.k8s.io/busybox" {
+    command "/bin/sh", "-c", "ls /etc/config/"
+    volume-mount "config-volume" path=/etc/config
+  }
+  volume "config-volume" {
+    config-map "special-config"
+  }
+}

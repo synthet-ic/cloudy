@@ -10,7 +10,7 @@ parallelism=2
 backoff-limit=0
 
 [spec.template.spec]
-restart-policy="Never"
+restart-policy never
 
 [[spec.template.spec.containers]]
 name="main"

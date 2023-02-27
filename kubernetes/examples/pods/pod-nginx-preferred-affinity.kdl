@@ -1,18 +1,14 @@
-version="v1"
-kind="Pod"
-
-[metadata]
-name="nginx"
-
-[[spec.affinity.node-affinity.preferred-during-scheduling-ignored-during-execution]]
-weight=1
-
-[[spec.affinity.node-affinity.preferred-during-scheduling-ignored-during-execution.preference.match-expressions]]
-key="disctype"
-operator="In"
-values=[ "ssd" ]
-
-[[spec.containers]]
-name="nginx"
-image="nginx"
-image-pull-policy="IfNotPresent"
+pod "nginx" version="v1" {
+  affinity {
+    node-affinity {
+      preferred-during-scheduling-ignored-during-execution weight=1 {
+        preference {
+          match-expression key="disctype" operator=in {
+            values "ssd"
+          }
+        }
+      }
+    }
+  }
+  container "nginx" image="nginx" image-pull-policy=if-not-present
+}

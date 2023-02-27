@@ -10,4 +10,4 @@ node-name="foo-node"
 [[spec.containers]]
 name="nginx"
 image="nginx"
-image-pull-policy="IfNotPresent"
+image-pull-policy=IfNotPresent

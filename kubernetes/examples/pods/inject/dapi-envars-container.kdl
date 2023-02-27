@@ -5,7 +5,7 @@ kind="Pod"
 name="dapi-envars-resourcefieldref"
 
 spec {}
-restart-policy="Never"
+restart-policy never
 
 [[spec.containers]]
 name="test-container"

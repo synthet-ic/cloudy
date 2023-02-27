@@ -1,9 +1,10 @@
 pod "dapi-test-pod" version="v1" {
-  restart-policy "never"
+  restart-policy never
   container "test-container" image="registry.k8s.io/busybox" {
     command "/bin/sh", "-c" "cat /etc/config/keys"
-    volume-mount "config-volume"
-    mount-path "/etc/config"
+    volume-mount "config-volume" {
+      path /etc/config
+    }
   }
   volume "config-volume" {
     config-map "special-config" {

@@ -1,32 +1,14 @@
-version="v1"
-kind="Pod"
-
-[metadata]
-name="init-demo"
-
-spec {}
-dns-policy="Default"
-
-[[spec.containers]]
-name="nginx"
-image="nginx"
-
-[[spec.containers.ports]]
-container-port=80
-
-[[spec.containers.volume-mounts]]
-name="workdir"
-mount-path="/usr/share/nginx/html"
-
-[[spec.init-containers]]
-name="install"
-image="busybox"
-command=[ "wget", "-O", "/work-dir/index.html", "http://info.cern.ch" ]
-
-[[spec.init-containers.volume-mounts]]
-name="workdir"
-mount-path="/work-dir"
-
-[[spec.volumes]]
-name="workdir"
-empty-dir={ }
+pod "init-demo" version="v1" {
+  dns-policy default
+  container "nginx" image="nginx" {
+    port container-port=80
+    volume-mount "workdir" path=/usr/share/nginx/html
+  }
+  init-containers "install" image="busybox" {
+    command "wget" "-O" "/work-dir/index.html" "http://info.cern.ch"
+    volume-mount "workdir" path=/work-dir
+  }
+  volume "workdir" {
+    empty-dir {}
+  }
+}

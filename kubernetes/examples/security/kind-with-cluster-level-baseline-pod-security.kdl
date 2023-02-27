@@ -1,5 +1,5 @@
 admission-configuration version="apiserver.config.k8s.io/v1" {
-  plugin name="pod-security" {
+  plugin "pod-security" {
     configuration {
       pod-security-configuration version="pod-security.admission.config.k8s.io/v1" {
         defaults enforce="baseline" enforce-version="latest" audit="restricted" audit-version="latest" warn="restricted" warn-version="latest"
@@ -19,23 +19,23 @@ cluster version="kind.x-k8s.io/v1alpha4" {
       cluster-configuration {
         api-server {
           extra-args
-            admission-control-config-file="/etc/config/cluster-level-pss.yaml"
-            host-path="/etc/config"
-            mount-path="/etc/config"
+            admission-control-config-file=/etc/config/cluster-level-pss.yaml
+            host-path=/etc/config
+            mount-path=/etc/config
             read-only=false
-            path-type="directory-or-create"
+            path-type=directory-or-create
           {
-            extra-volume name="accf"
+            extra-volume "accf"
           }
         }
       }
     }
-    extra-mount host-path="/tmp/pss" container-path="/etc/config" read-only=false selinux-relabel=false propagation="none"
+    extra-mount host-path=/tmp/pss container-path=/etc/config read-only=false selinux-relabel=false propagation=none
   }
 }
 
-pod version="v1" name="nginx" {
-  container image="nginx" name="nginx" {
+pod "nginx" version="v1" {
+  container "nginx" image="nginx" {
     port container-port=80
   }
 }
